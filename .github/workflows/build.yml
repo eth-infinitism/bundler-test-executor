@@ -1,0 +1,20 @@
+name: Build
+on: [ push, pull_request ]
+
+env:
+  FORCE_COLORS: 1
+
+jobs:
+
+  runall:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      #cache the bundler-spect-tests folder, but rebuild on change to specs, contracts or python deps
+      - uses: actions/cache@v2
+        with:
+          path: bundler-spec-tests
+          key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/.git/modules/*/refs/heads/*') }}
+
+      - run: ./runall.sh

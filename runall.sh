@@ -6,7 +6,9 @@ OUT=$BUILD/out
 test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git
 cd bundler-spec-tests 
 git pull
-if false; then
+
+runall=1
+if [ -n "$runall" ]; then
 pdm install
 pdm update-deps
 fi
