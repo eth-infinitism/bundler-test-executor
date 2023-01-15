@@ -1,0 +1,40 @@
+name: Build Dashboard
+
+on: 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+  push: 
+    branches:
+      - '*'
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+env:
+  FORCE_COLORS: 1
+
+jobs:
+
+  runall:
+    runs-on: cimg/python:3.8.0-node
+
+    steps:
+      - run: "curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -"
+
+ 
+      - uses: actions/checkout@v1
+      #cache the bundler-spect-tests folder, but rebuild on change to specs, contracts or python deps
+      - uses: actions/cache@v2
+        with:
+          path: bundler-spec-tests
+          key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/.git/modules/*/refs/heads/*') }}
+
+      - run: ./runall.sh
