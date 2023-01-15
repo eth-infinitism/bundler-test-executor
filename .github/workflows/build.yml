@@ -1,6 +1,17 @@
-name: Build
+name: Build Dashboard
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
   push:
     branches:
       - '*'
@@ -16,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-     - uses: pdm-project/setup-pdm@v3
+      - uses: pdm-project/setup-pdm@v3
         name: Setup PDM
         with:
           python-version: 3.10 # Version range or exact version of a Python version to use, the same as actions/setup-python
