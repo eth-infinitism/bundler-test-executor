@@ -1,6 +1,6 @@
 name: Build Dashboard
 
-on:
+on: 
   workflow_dispatch:
     inputs:
       logLevel:
@@ -12,7 +12,7 @@ on:
         - info
         - warning
         - debug
-  push:
+  push: 
     branches:
       - '*'
   pull_request:
@@ -24,9 +24,19 @@ env:
 jobs:
 
   runall:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.10' ]
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
 
     steps:
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+
       - uses: pdm-project/setup-pdm@v3
         name: Setup PDM
         with:
