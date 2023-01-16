@@ -27,11 +27,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
-      - run: export PATH=$PATH:/home/runner/.local/bin
-      - run: echo path=$PATH
+      # pdm is installed in .local/bin and .local/share
+      - uses: actions/cache@v2
+        with:
+          path: .local
+          key: local-pdm
+
+      - run: test -z `which pdm` && curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
  
       - uses: actions/checkout@v1
+
       #cache the bundler-spect-tests folder, but rebuild on change to specs, contracts or python deps
       - uses: actions/cache@v2
         with:
