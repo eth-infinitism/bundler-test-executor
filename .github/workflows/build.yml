@@ -24,11 +24,12 @@ env:
 jobs:
 
   runall:
-    runs-on: cimg/python:3.8.0-node
+    runs-on: ubuntu-latest
 
     steps:
-      - run: "curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -"
-
+      - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
+      - run: export PATH=$PATH:/home/runner/.local/bin
+      - run: echo path=$PATH
  
       - uses: actions/checkout@v1
       #cache the bundler-spect-tests folder, but rebuild on change to specs, contracts or python deps
@@ -36,5 +37,9 @@ jobs:
         with:
           path: bundler-spec-tests
           key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/.git/modules/*/refs/heads/*') }}
+
+      - run: "test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git -b modules-https"
+
+      - run: "cd bundler-spec-tests && git pull && pdm install && pdm update-deps"
 
       - run: ./runall.sh
