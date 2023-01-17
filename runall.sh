@@ -4,10 +4,12 @@ root=`cd \`dirname $0\`; pwd`
 BUILD=$root/build
 OUT=$BUILD/out
 RAW=$BUILD/raw
-#test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git -b modules-https
+test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git -b modules-https
 
 cd bundler-spec-tests 
 
+#first time must runall.
+test -d .venv || runall=1
 if [ -n "$runall" ]; then
 git pull
 pdm install
@@ -42,4 +44,5 @@ done
 #generate list of all files:
 ls $OUT > $OUT/list.txt
 
+cp -r html/ build/
 find $root/build
