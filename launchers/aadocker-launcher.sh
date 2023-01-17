@@ -1,1 +1,0 @@
-aalauncher/aadocker-launcher.sh
