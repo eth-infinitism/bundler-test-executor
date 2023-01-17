@@ -27,13 +27,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # pdm is installed in .local/bin and .local/share
-      - uses: actions/cache@v2
-        with:
-          path: .local
-          key: local-pdm
 
-      - run: test -z `which pdm` && curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
+      - run: pip install jq yq
+      - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
+
+      - run: echo $PATH; echo which pdm=`which pdm`
  
       - uses: actions/checkout@v1
 
@@ -43,8 +41,7 @@ jobs:
           path: bundler-spec-tests
           key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/.git/modules/*/refs/heads/*') }}
 
-      - run: "test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git -b modules-https"
-
-      - run: "cd bundler-spec-tests && git pull && pdm install && pdm update-deps"
+      - run: "test -d bundler-spec-tests || git clone --depth 1 https://github.com/eth-infinitism/bundler-spec-tests.git -b modules-https"
+      - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
 
       - run: ./runall.sh

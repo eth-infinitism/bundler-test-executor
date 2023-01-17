@@ -3,19 +3,23 @@ root=`cd \`dirname $0\`; pwd`
 
 BUILD=$root/build
 OUT=$BUILD/out
-test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git -b modules-https
-cd bundler-spec-tests 
-git pull
+RAW=$BUILD/raw
+#test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git -b modules-https
+#cd bundler-spec-tests 
+#git pull
 
-runall=1
+#runall=1
 if [ -n "$runall" ]; then
 pdm install
 pdm update-deps
 fi
 
 
-rm -rf $OUT
+rm -rf $OUT $RAW
 mkdir -p $OUT
+mkdir -p $RAW
+
+cd bundler-spec-tests
 
 for launcher in ../launchers/*; do
 #skip folders
@@ -25,9 +29,16 @@ echo ====================================================================
 echo ====== `basename $launcher`
 echo ====================================================================
 
-outxml=$OUT/`basename -s .sh $launcher`.xml
-outjson=$OUT/`basename -s .sh $launcher`.json
-pdm run test --launcher-script=$launcher --junit-xml $outxml -k  GAS
-#todo: convert xml to json...
+basename=`basename -s .sh $launcher`
+outxml=$OUT/$basename.xml
+outjson=$OUT/$basename.json
+outraw=$RAW/$basename.txt
+
+pdm run test --launcher-script=$launcher --junit-xml $outxml -k  GAS | tee $outraw
+xq . $outxml > $outjson
+
+cat $outjson
 
 done
+
+find $root/build
