@@ -1,0 +1,86 @@
+
+<h1>EIP-4337 Bundlers Spec Test Results</h1>
+<div id=output>
+<script>
+
+okmark = '&#9989;'
+errmark = '&#10060;'
+const dir = './build/out/'
+async function getList() {
+  list = await fetch(dir+'list.txt').then(r=>r.text())
+  return list.split('\n').filter(line=>line.endsWith('json')).map(line=>dir+line)
+}
+
+async function getJson(path) {
+   return await fetch(path).then(r=>r.json())
+}
+
+function mapTests(testcases) {
+  return testcases.map(t=>({
+	name: t['@name'],
+	classname: t['@classname'],
+	time: t['@time'],
+	skipped: t['skipped'],
+	error: t['error'],
+	failure: t['failure'],
+  }))
+}
+
+async function load() {
+  list = await getList()
+  out=[]
+  for ( fname of list ) {
+    const j = await getJson(fname)
+    test = j.testsuites.testsuite
+    res = {
+	name: fname.replace(/.*\/(.*).json$/,'$1'),
+	skipped:  test['@skipped'],
+	failures: test['@failures'],
+	errors: test['@errors'],
+	time: test['@time'],
+        tests: mapTests(test.testcase)
+    }
+console.log('res=',JSON.stringify(res,null,2))
+    out.push(res)
+  }
+
+  return out
+}
+
+function ref(data,link) {
+  if ( !link) return data
+  return `<a href="${link}">${data}</a>`
+}
+
+function tr(...data) {
+  return `<tr>${data.join(' ')}</tr>`
+}
+
+function td(data,link) {
+  return `<td>${ref(data,link)}</td>`
+}
+
+async function init() {
+  data = await load()
+console.log(data)
+  rows = document.querySelector('#output')
+
+  rows.innerHTML = '<table border=1><tbody>\n' + 
+		tr(td('name'),td('errors'),td('failures'),td('skipped'),td('time')) +
+	data.map(line=>{
+		const {name,skipped, errors,failures, time} = line
+		link = dir+ '../raw/'+ name + '.txt'
+		ok = failures== '0' && errors == '0'
+		return tr(td(name, link),td(errors),td(failures),td(skipped),td(time))
+	}).join('\n')
+	'</tbody></table>'
+
+console.log(rows.innerHTML)
+
+}
+init()
+
+</script>
+
+
+

@@ -5,11 +5,11 @@ BUILD=$root/build
 OUT=$BUILD/out
 RAW=$BUILD/raw
 #test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git -b modules-https
-#cd bundler-spec-tests 
-#git pull
 
-#runall=1
+cd bundler-spec-tests 
+
 if [ -n "$runall" ]; then
+git pull
 pdm install
 pdm update-deps
 fi
@@ -18,8 +18,6 @@ fi
 rm -rf $OUT $RAW
 mkdir -p $OUT
 mkdir -p $RAW
-
-cd bundler-spec-tests
 
 for launcher in ../launchers/*; do
 #skip folders
@@ -34,11 +32,14 @@ outxml=$OUT/$basename.xml
 outjson=$OUT/$basename.json
 outraw=$RAW/$basename.txt
 
-pdm run test --launcher-script=$launcher --junit-xml $outxml -k  GAS | tee $outraw
+pdm run test --launcher-script=$launcher --junit-xml $outxml | tee $outraw
 xq . $outxml > $outjson
 
 cat $outjson
 
 done
+
+#generate list of all files:
+ls $OUT > $OUT/list.txt
 
 find $root/build
