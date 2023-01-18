@@ -4,7 +4,7 @@ root=`cd \`dirname $0\`; pwd`
 BUILD=$root/build
 OUT=$BUILD/out
 RAW=$BUILD/raw
-test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git -b modules-https
+test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git
 
 cd bundler-spec-tests 
 
