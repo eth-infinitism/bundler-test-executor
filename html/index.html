@@ -66,12 +66,12 @@ console.log(data)
   rows = document.querySelector('#output')
 
   rows.innerHTML = '<table border=1><tbody>\n' + 
-		tr(td('name'),td('errors'),td('failures'),td('skipped'),td('time')) +
+		tr(td('name'),td('total'),td('errors'),td('failures'),td('skipped'),td('time')) +
 	data.map(line=>{
-		const {name,skipped, errors,failures, time} = line
+		const {name,skipped, errors,failures, time, tests} = line
 		link = dir+ '../raw/'+ name + '.txt'
 		ok = failures== '0' && errors == '0'
-		return tr(td(name, link),td(errors),td(failures),td(skipped),td(time))
+		return tr(td(name, link),td(tests.length),td(errors),td(failures),td(skipped),td(time))
 	}).join('\n')
 	'</tbody></table>'
 
