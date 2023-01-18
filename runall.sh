@@ -45,5 +45,5 @@ done
 ls $OUT > $OUT/list.txt
 
 cd $root
-cp -r html/ build/
+cp -r html/* build/
 find build
