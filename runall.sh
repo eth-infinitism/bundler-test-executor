@@ -34,7 +34,7 @@ outxml=$OUT/$basename.xml
 outjson=$OUT/$basename.json
 outraw=$RAW/$basename.txt
 
-pdm run test --launcher-script=$launcher --junit-xml $outxml | tee $outraw
+pdm run test --launcher-script=$launcher --junit-xml $outxml "$@" | tee $outraw
 xq . $outxml > $outjson
 
 cat $outjson
@@ -44,5 +44,6 @@ done
 #generate list of all files:
 ls $OUT > $OUT/list.txt
 
+cd $root
 cp -r html/ build/
-find $root/build
+find build
