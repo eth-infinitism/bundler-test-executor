@@ -34,14 +34,17 @@ jobs:
       - run: echo $PATH; echo which pdm=`which pdm`
  
       - uses: actions/checkout@v1
+      - run:  test -d bundler-spec-tests || git clone --recurse-submodules  --depth 1 https://github.com/eth-infinitism/bundler-spec-tests -b modules-https && yarn --cwd bundler-spec-tests/spec remove gatsby
 
       - uses: actions/checkout@v3
         with:
+          if: 0
           repository: eth-infinitism/bundler-spec-tests
           ref: modules-https
           path: bundler-spec-tests
           submodules: true
 
+      - run: test -d bundler-spec-tests || git checkout --depth 0 https://github.com/eth-infinitism/bundler-spec-tests -b modules-https
       #cache the bundler-spect-tests folder, but rebuild on change to specs, contracts or python deps
       - uses: actions/cache@v2
         with:
