@@ -48,6 +48,8 @@ jobs:
           path: bundler-spec-tests
           key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/.git/modules/*/refs/heads/*') }}
 
+
+      - run: "grep . bundler-spec-tests/.gitmodules bundler-spec-tests/.git/modules/*/refs/heads/*; env"
       - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
 
       - run: ./runall.sh
