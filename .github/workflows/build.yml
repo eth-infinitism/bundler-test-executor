@@ -29,27 +29,32 @@ jobs:
     steps:
 
       - run: pip install jq yq
+
+      - uses: actions/checkout@v1
+
+      # - uses: actions/checkout@v3
+      #   with:
+      #     repository: eth-infinitism/bundler-spec-tests
+      #     ref: modules-https
+      #     path: bundler-spec-tests
+      #     submodules: true
+
+      - run: test -d bundler-spec-tests || git clone --recurse-submodules --depth 1 https://github.com/eth-infinitism/bundler-spec-tests -b modules-https && yarn --cwd bundler-spec-tests/spec remove gatsby
+
+      #cache the bundler-spect-tests folder, but rebuild on change to specs, contracts or python deps
+      # (cache .local to save re-installation of pdm)
+      - uses: actions/cache@v2
+        with:
+          path: |
+            bundler-spec-tests
+            .local
+          key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/.git/modules/*/refs/heads/*') }}
+
+        #todo: may be skipped? (if appears in above cache)
       - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
 
       - run: echo $PATH; echo which pdm=`which pdm`
  
-      - uses: actions/checkout@v1
-      - run:  test -d bundler-spec-tests || git clone --recurse-submodules  --depth 1 https://github.com/eth-infinitism/bundler-spec-tests -b modules-https && yarn --cwd bundler-spec-tests/spec remove gatsby
-
-      - uses: actions/checkout@v3
-        with:
-          if: 0
-          repository: eth-infinitism/bundler-spec-tests
-          ref: modules-https
-          path: bundler-spec-tests
-          submodules: true
-
-      - run: test -d bundler-spec-tests || git checkout --depth 0 https://github.com/eth-infinitism/bundler-spec-tests -b modules-https
-      #cache the bundler-spect-tests folder, but rebuild on change to specs, contracts or python deps
-      - uses: actions/cache@v2
-        with:
-          path: bundler-spec-tests
-          key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/.git/modules/*/refs/heads/*') }}
 
 
       - run: "grep . bundler-spec-tests/.gitmodules bundler-spec-tests/.git/modules/*/refs/heads/*; env"
