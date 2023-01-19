@@ -18,6 +18,14 @@ jobs:
 
     steps:
 
+      - uses: actions/cache/restore@v3
+        with: { path: ~/.local, key: pdm }
+
+      - run: test -z `which pdm` || curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
+
+      - uses: actions/cache/save@v3
+        with: { path: "~/.local", key: pdm }
+
       - run: pip install jq yq
 
       - uses: actions/checkout@v1
@@ -31,22 +39,13 @@ jobs:
 
       - run: test -d bundler-spec-tests || git clone --recurse-submodules --depth 1 https://github.com/eth-infinitism/bundler-spec-tests -b modules-https && yarn --cwd bundler-spec-tests/spec remove gatsby
 
-      #cache the bundler-spect-tests folder, but rebuild on change to specs, contracts or python deps
-      # (cache .local to save re-installation of pdm)
       - uses: actions/cache@v2
         with:
-          path: |
-            bundler-spec-tests
-            .local
+          path: bundler-spec-tests
           key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/.git/modules/*/refs/heads/*') }}
-
-        #todo: may be skipped? (if appears in above cache)
-      - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
 
       - run: echo $PATH; echo which pdm=`which pdm`
  
-
-
       - run: "grep . bundler-spec-tests/.gitmodules bundler-spec-tests/.git/modules/*/refs/heads/*; env"
       - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
 
