@@ -20,8 +20,9 @@ jobs:
 
       - uses: actions/cache@v3
         id: pdm-cache
-        with: { path: ~/.local, key: pdm }
+        with: { path: ~/.local, key: pdm1 }
 
+      - run: 'echo after cache restore: ; pwd ; find .'
       - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
         if: ${{ steps.pdm-cache.outputs.cache-hit != 'true' }}
 
