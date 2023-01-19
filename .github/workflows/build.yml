@@ -18,13 +18,7 @@ jobs:
 
     steps:
 
-      - uses: actions/cache/restore@v3
-        with: { path: ~/.local, key: pdm }
-
       - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
-
-      - uses: actions/cache/save@v3
-        with: { path: "~/.local", key: pdm }
 
       - run: pip install jq yq
 
