@@ -1,3 +1,30 @@
+<head>
+<style>
+#results {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  /*width: 100%;*/
+}
+
+#results td, #results th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#results tr:nth-child(even){background-color: #f2f2f2;}
+
+#results tr:hover {background-color: #ddd;}
+
+#results th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+</head>
+
 <h1>EIP-4337 Bundlers Spec Test Results</h1>
 <div id=output >
 </div>
@@ -62,6 +89,11 @@ function tr(...data) {
   return `<tr>${data.join(' ')}</tr>`
 }
 
+function th(data) {
+  // return td(data)
+  return `<th>${data}</th>`
+}
+
 function td(data,link) {
   return `<td>${ref(data,link)}</td>`
 }
@@ -71,8 +103,8 @@ async function init() {
 console.log(data)
   rows = document.querySelector('#output')
 
-  rows.innerHTML = '<table border=1><tbody>\n' + 
-		tr(td('name'),td('total'),td('errors'),td('failures'),td('skipped'),td('time')) +
+  rows.innerHTML = '<table id="results"><tbody>\n' + 
+		tr(th('Name'),th('Total'),th('Errors'),th('Failures'),th('Skipped'),th('Time')) +
 	data.map(line=>{
 		const {name,skipped, errors,failures, time, tests} = line
 		link = dir+ '../raw/'+ name + '.txt'
