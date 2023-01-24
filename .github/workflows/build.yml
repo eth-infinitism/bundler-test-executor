@@ -51,7 +51,7 @@ jobs:
         name: "re-checkout bundler-spec-tests (on top of cache)"
 
         #for faster "update-deps" for spec
-      - run: yarn --cwd bundler-spec-tests/spec remove gatsby
+      - run: yarn --cwd bundler-spec-tests/spec remove gatsby || echo "already removed"
 
       - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
         name: update submodules of bundler-spec-tests
