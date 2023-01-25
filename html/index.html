@@ -67,6 +67,7 @@ async function load() {
     test = j.testsuites.testsuite
     res = {
 	name: test['@name'],
+  fname, //: fname.replace(/.*\/(.*.json)$/,'$1'),
 	skipped:  test['@skipped'],
 	failures: test['@failures'],
 	errors: test['@errors'],
@@ -106,8 +107,8 @@ console.log(data)
   rows.innerHTML = '<table id="results"><tbody>\n' + 
 		tr(th('Name'),th('Total'),th('Errors'),th('Failures'),th('Skipped'),th('Time')) +
 	data.map(line=>{
-		const {name,skipped, errors,failures, time, tests} = line
-		link = dir+ '../raw/'+ name + '.txt'
+		const {name, fname, skipped, errors,failures, time, tests} = line
+		link = fname.replace('json', 'txt')
 		ok = failures== '0' && errors == '0'
 		return tr(td(name, link),td(tests.length),td(errors),td(failures),td(skipped),td(time))
 	}).join('\n')

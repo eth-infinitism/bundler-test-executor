@@ -3,7 +3,6 @@ root=`cd \`dirname $0\`; pwd`
 
 BUILD=$root/build
 OUT=$BUILD/out
-RAW=$BUILD/raw
 test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git
 
 cd bundler-spec-tests 
@@ -17,9 +16,8 @@ pdm update-deps
 fi
 
 
-rm -rf $OUT $RAW
+rm -rf $OUT
 mkdir -p $OUT
-mkdir -p $RAW
 
 for launcher in ../launchers/*.sh; do
 #skip folders
@@ -32,10 +30,11 @@ echo ====================================================================
 basename=`basename -s .sh $launcher`
 outxml=$OUT/$basename.xml
 outjson=$OUT/$basename.json
-outraw=$RAW/$basename.txt
+outraw=$OUT/$basename.txt
 
 name=`$launcher name`
-pdm run test --launcher-script=$launcher -o junit_suite_name="$name"  --junit-xml $outxml "$@" | tee $outraw
+echo "Running launcher $launcher, name=$name" > $outraw
+pdm run test --launcher-script=$launcher -o junit_suite_name="$name"  --junit-xml $outxml "$@" | tee -a $outraw
 xq . $outxml > $outjson
 
 cat $outjson
