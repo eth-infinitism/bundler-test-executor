@@ -21,7 +21,7 @@ rm -rf $OUT $RAW
 mkdir -p $OUT
 mkdir -p $RAW
 
-for launcher in ../launchers/*; do
+for launcher in ../launchers/*.sh; do
 #skip folders
 test -d $launcher && continue
 
@@ -34,7 +34,8 @@ outxml=$OUT/$basename.xml
 outjson=$OUT/$basename.json
 outraw=$RAW/$basename.txt
 
-pdm run test --launcher-script=$launcher --junit-xml $outxml "$@" | tee $outraw
+name=`$launcher name`
+pdm run test --launcher-script=$launcher -o junit_suite_name="$name"  --junit-xml $outxml "$@" | tee $outraw
 xq . $outxml > $outjson
 
 cat $outjson
