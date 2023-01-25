@@ -1,6 +1,6 @@
 #!/bin/bash 
 #launcher script for the AA reference bundler.
-# copied from https://github.com/eth-infinitism/bundler/blob/dockerize/dockers/test/aadocker-launcher.sh
+# copied from https://github.com/eth-infinitism/bundler/blob/main/dockers/test/aabundler-launcher.sh
 
 cd `dirname \`realpath $0\``
 case $1 in
@@ -18,5 +18,5 @@ case $1 in
 	;;
 
  *)
-	echo "usage: $0 {start|stop}"
+	echo "usage: $0 {start|stop|name}"
 esac
