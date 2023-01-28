@@ -40,7 +40,7 @@ okmark = '&#9989;'
 errmark = '&#10060;'
 const dir = './out/'
 async function getList() {
-  list = await fetch(dir+'list.txt').then(r=>r.text())
+  list = await fetch(dir+'index.txt').then(r=>r.text())
   return list.split('\n').filter(line=>line.endsWith('json')).map(line=>dir+line)
 }
 
