@@ -56,28 +56,26 @@ jobs:
       - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
         name: update submodules of bundler-spec-tests
 
-
-      - run: ./runall.sh
+      - run: ./runall.sh -k GASP
         name: Run all tests.
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
-        with: 
-          path: build
+      - name: clone results repo
+        run: ./update-results.sh out-results
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
-
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+      - name: Push results to results repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'out-results'
+          destination-github-username: 'eth-infinitism'
+          destination-repository-name: 'bundler-test-results'
+          user-email: dror.tirosh@gmail.com
+          target-branch: master
 
 # Allow one concurrent deployment
 concurrency:
-  group: "pages"
+  group: "deploy"
   cancel-in-progress: true
 

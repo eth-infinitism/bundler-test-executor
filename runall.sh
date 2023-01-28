@@ -41,8 +41,7 @@ cat $outjson
 
 done
 
-#generate list of all files:
-ls $OUT > $OUT/list.txt
+ls $OUT > $OUT/index.txt
 
 cd $root
 cp -r html/* build/
