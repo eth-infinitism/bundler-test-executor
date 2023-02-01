@@ -6,6 +6,7 @@ echo usage: $0 {results-clone-folder}
 exit 1
 fi
 
+env
 base=`pwd`/$1
 rm -rf $base
 git clone --depth 1 https://github.com/eth-infinitism/bundler-test-results.git $base
