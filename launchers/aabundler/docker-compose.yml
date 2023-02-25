@@ -7,7 +7,7 @@ services:
 
   bundler:
     ports: [ '3000:3000' ]
-    image: accountabstraction/bundler
+    image: accountabstraction/bundler:$TAG
     command: --network http://geth-dev:8545
     volumes:
       - ./workdir:/app/workdir:ro
