@@ -2,9 +2,9 @@ name: Build Test Results Dashboard
 
 on: 
   workflow_dispatch:
-  push: 
-    branches:
-      - '*'
+#  push: 
+#    branches:
+#      - '*'
   pull_request:
     types: [opened, reopened, synchronize]
 
