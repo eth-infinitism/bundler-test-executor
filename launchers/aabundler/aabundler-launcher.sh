@@ -14,7 +14,7 @@ case $1 in
 	docker-compose up -d
 	echo waiting for bundler to start
 	#while ! [[  `curl 2>/dev/null  -X POST http://localhost:3000/rpc` =~ error ]]; do sleep 1 ; done
-	while ! [[  `curl -X POST http://localhost:3000/rpc` =~ error ]]; do echo waiting for bundler; sleep 4 ; done
+	while ! [[  `curl -X POST http://localhost:3000/rpc` =~ error ]]; do echo waiting for bundler; sleep 3 ; done
 	;;
  stop)
  	docker-compose down
