@@ -14,24 +14,28 @@ function removePrefix(obj) {
 }
 
 const fs = require('fs')
+const path = require('path')
 
 dir=process.argv[2]
 
-allFiles = fs.readFileSync(dir+'/all.txt', 'ascii')
+allFiles = fs.readFileSync(path.join(dir,'all.txt'), 'ascii').split('\n')
 
-console.log('all=',allFiles)
+
+allFiles.sort()
+allFiles.reverse()
+
 allResults={}
-allFiles.split('\n').filter(f=>f.endsWith('.json')).forEach(f=>{
-    const [_, path, name] = f.match(/(.*)\/(.*?).json/)
-    json = JSON.parse(fs.readFileSync(dir+f, 'ascii'))
+allFiles.filter(f=>f.endsWith('.json')).forEach(f=>{
+    const [_, filepath, name] = f.match(/^(?:\W*)(.*)\/(.*?).json/)
+    json = JSON.parse(fs.readFileSync(path.join(dir,f), 'ascii'))
     res = removePrefix(json.testsuites.testsuite)
-    delete res.testcase
-    d = allResults[path]
+//    delete res.testcase
+    d = allResults[filepath]
     if (!d) {
-        d = allResults[path] = {}
+        d = allResults[filepath] = {}
     } 
     d[name] = res
-	console.log(name,res)
+	//console.log(name,res)
 })
 
 
