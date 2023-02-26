@@ -9,11 +9,6 @@ services:
       - ERC4337_BUNDLER_ETH_CLIENT_URL=http://geth-dev:8545
       - ERC4337_BUNDLER_PRIVATE_KEY=c6cbc5ffad570fdad0544d1b5358a36edeb98d163b6567912ac4754e144d4edb
       - ERC4337_BUNDLER_DEBUG_MODE=true
-    healthcheck:
-      test: curl --fail http://localhost:3000/ping || exit 1
-      interval: 3s
-      timeout: 10s
-      retries: 3
     depends_on:
       fund-signer:
         condition: service_completed_successfully

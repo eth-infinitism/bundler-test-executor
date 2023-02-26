@@ -9,7 +9,13 @@ case $1 in
 
  start)
 	docker-compose up -d
+	echo "deploying EntryPoint..."
 	(cd ../../bundler-spec-tests/@account-abstraction && yarn deploy --network localhost)
+	while true; do
+		curl --fail http://localhost:3000/ping && break
+		echo "waiting for bundler..."
+		sleep 3
+	done
 	;;
  stop)
  	docker-compose down
