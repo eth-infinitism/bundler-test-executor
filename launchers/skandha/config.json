@@ -1,0 +1,16 @@
+{
+  "networks": {
+    "dev": {
+      "entryPoints": {
+        "0x0576a174D229E3cFA37253523E645A78A0C91B57": {
+          "relayer": "0xada5f7928ef8f684afa7b06929b5d1f653e486b52077ba9d798eded96c851ade",
+          "beneficiary": "0xF5a6EAD936fb47f342Bb63E676479bDdf26EbE1d"
+        }
+      },
+      "rpcEndpoint": "http://geth-dev:8545",
+      "minInclusionDenominator": 10,
+      "throttlingSlack": 10,
+      "banSlack": 10
+    }
+  }
+}
