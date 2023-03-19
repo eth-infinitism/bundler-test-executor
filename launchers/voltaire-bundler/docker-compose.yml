@@ -1,0 +1,15 @@
+# start a standlone bundler for testing.
+# bring up a the bundler with its own geth instance
+
+version: '2'
+
+services:
+
+  bundler:
+    ports: [ '3000:3000' ]
+    image: sherifahmed990/voltaire-bundler:latest
+    command: --entrypoint 0x0576a174D229E3cFA37253523E645A78A0C91B57 --bundler_helper_address 0x4AC842ABD525EEC0094951f892A8013Af1c78764 --bundler_secret 0x897368deaa9f3797c02570ef7d3fa4df179b0fc7ad8d8fc2547d04701604eb72 --rpc_url 0.0.0.0 --geth_url http://geth-dev:8545
+
+  geth-dev:
+    build: geth-dev
+    ports: [ '8545:8545' ]
