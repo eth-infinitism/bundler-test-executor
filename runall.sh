@@ -42,7 +42,8 @@ outraw=$OUT/$basename.txt
 name=`$launcher name`
 echo "Running launcher $launcher, name=$name" > $outraw
 OPTIONS="--launcher-script=$launcher --junit-xml $outxml"
-OPTIONS="$OPTIONS -o junit_logging=all -o junit_log_passing_tests=false --log-rpc"
+OPTIONS="$OPTIONS -o junit_logging=all -o junit_log_passing_tests=false"
+# --log-rpc
 pdm run test -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
 xq . $outxml > $outjson
 
