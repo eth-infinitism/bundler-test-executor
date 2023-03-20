@@ -16,7 +16,7 @@ case $1 in
 	./waitForBundler http://localhost:3000/rpc
 	;;
  stop)
- 	docker-compose down -t 0
+ 	docker-compose down -t 3
 	;;
 
  *)
