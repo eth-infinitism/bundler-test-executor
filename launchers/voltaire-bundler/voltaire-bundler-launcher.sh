@@ -10,7 +10,7 @@ case $1 in
  start)
 	docker-compose up -d
 	echo waiting for bundler to start
-	while ! [[  `curl -X POST http://localhost:3000/rpc` =~ error ]]; do echo waiting for bundler; sleep 3 ; done
+	../aabundler/waitForBundler http://localhost:3000/rpc
 	geth --exec 'loadScript("deploy.js")' attach http://0.0.0.0:8545
 	cd ../../bundler-spec-tests/@account-abstraction && yarn deploy --network localhost
 	;;
