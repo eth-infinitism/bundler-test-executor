@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash 
 rpcurl=$1
 timeout=${2:-10}
 
