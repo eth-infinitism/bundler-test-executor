@@ -47,12 +47,10 @@ OPTIONS="$OPTIONS -o junit_logging=all -o junit_log_passing_tests=false"
 pdm run test -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
 xq . $outxml > $outjson
 
-cat $outjson
-
 done
 
 ls $OUT > $OUT/index.txt
 
 cd $root
 cp -r html/* build/
-find build
+find build -type f

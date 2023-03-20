@@ -18,7 +18,7 @@ case $1 in
 	done
 	;;
  stop)
- 	docker-compose down -t 0
+ 	docker-compose down -t 3
 	;;
 
  *)
