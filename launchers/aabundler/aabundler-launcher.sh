@@ -18,7 +18,7 @@ case $1 in
  stop)
 	docker-compose logs bundler --no-log-prefix > /tmp/bundler.log
 	echo dumped bundler log to /tmp/bundler.log
- 	docker-compose down -t 3
+ 	docker-compose down -t 1
 	;;
 
  *)
