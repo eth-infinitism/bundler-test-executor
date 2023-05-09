@@ -13,7 +13,7 @@ case $1 in
 	cd ../../bundler-spec-tests/@account-abstraction && yarn deploy --network localhost
 	;;
  stop)
- 	docker-compose down -t 3
+ 	docker-compose down -t 1
 	;;
 
  *)
