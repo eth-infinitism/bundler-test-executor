@@ -1,11 +1,11 @@
 #!/bin/bash 
-# Launcher script for the aa-bundler in Rust.
+# Launcher script for the Silius.
 
 cd `dirname \`realpath $0\``
 case $1 in
 
  name)
-	echo "aa-bundler in Rust"
+	echo "Silius - ERC-4337 bundler in Rust"
 	;;
 
  start)
