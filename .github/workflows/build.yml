@@ -27,7 +27,7 @@ jobs:
 
       - run: pip install jq yq
       - run: which xq
-      - run: find / -name xq -ls
+      - run: echo $PATH
       - run: echo '<hello>a<world tag="123"/>b</hello>' | xq
 
       - uses: actions/checkout@v1
