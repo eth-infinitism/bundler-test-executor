@@ -26,6 +26,9 @@ jobs:
       - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
 
       - run: pip install jq yq
+      - run: which xq
+      - run: echo $PATH
+      - run: echo '<hello>a<world tag="123"/>b</hello>' | xq
 
       - uses: actions/checkout@v1
 
@@ -42,7 +45,7 @@ jobs:
         name: check bundler-spec-tests and submodules status
 
       # restore cache of bundler-spec-tests, and its submodules
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: bundler-spec-tests
           key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock') }}
