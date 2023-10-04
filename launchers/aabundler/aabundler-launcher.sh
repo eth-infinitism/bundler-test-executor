@@ -2,7 +2,7 @@
 #launcher script for the AA reference bundler.
 # copied from https://github.com/eth-infinitism/bundler/blob/main/dockers/test/aabundler-launcher.sh
 
-export TAG=0.6.0
+export TAG=0.6.2
 cd `dirname \`realpath $0\``
 case $1 in
 

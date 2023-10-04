@@ -1,1 +1,1 @@
-aabundler/aabundler-launcher.sh
+./aabundler/aabundler-launcher.sh

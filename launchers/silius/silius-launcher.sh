@@ -1,11 +1,11 @@
 #!/bin/bash 
-# Launcher script for the aa-bundler in Rust.
+# Launcher script for the Silius.
 
 cd `dirname \`realpath $0\``
 case $1 in
 
  name)
-	echo "aa-bundler in Rust"
+	echo "Silius - ERC-4337 bundler in Rust"
 	;;
 
  start)
@@ -13,7 +13,7 @@ case $1 in
 	cd ../../bundler-spec-tests/@account-abstraction && yarn deploy --network localhost
 	;;
  stop)
- 	docker-compose down -t 3
+ 	docker-compose down -t 1
 	;;
 
  *)
