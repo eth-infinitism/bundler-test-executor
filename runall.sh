@@ -52,10 +52,10 @@ if $root/runbundler/runbundler.sh $bundler start; then
   # --log-rpc
   pdm run test -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
   test -r $outxml && xq . $outxml > $outjson
-  $root/runbundler/runbundler.sh $bundler logs -t > $outlogs
 
 fi
 
+$root/runbundler/runbundler.sh $bundler logs -t > $outlogs
 $root/runbundler/runbundler.sh $bundler down
 
 

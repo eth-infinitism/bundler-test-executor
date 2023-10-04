@@ -25,7 +25,7 @@ services:
       - ETH_RPC_URL=$ETH_RPC_URL
       - ENTRYPOINT=$ENTRYPOINT
       - VERBOSE=$VERBOSE
-    restart: no
+    restart: on-failure:5
     depends_on:
       funder:
         condition: service_completed_successfully
@@ -47,11 +47,11 @@ services:
   bundler-waiter:
     image: ghcr.io/foundry-rs/foundry:latest
     command: 
-      - sleep 1; cast chain-id -r $BUNDLER_URL
+      - sleep 1; cast rpc eth_chainId -r $BUNDLER_URL
     depends_on:
       bundler:
         condition: service_started
-    restart: on-failure
+    restart: on-failure:5
 
   wait-for-bundler:
     image: ghcr.io/foundry-rs/foundry:latest
