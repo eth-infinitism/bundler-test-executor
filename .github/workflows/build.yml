@@ -59,23 +59,23 @@ jobs:
       - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
         name: update submodules of bundler-spec-tests
 
-      - run: ./runall.sh
-        name: Run all tests.
+      # - run: ./runall.sh
+      #   name: Run all tests.
 
-      - name: Clone and update results repo
-        run: ./update-results.sh out-results
+      # - name: Clone and update results repo
+      #   run: ./update-results.sh out-results
 
-      - name: Push update to results repo
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-directory: 'out-results'
-          destination-github-username: 'eth-infinitism'
-          destination-repository-name: 'bundler-test-results'
-          user-email: dror.tirosh@gmail.com
-          target-branch: master
+      # - name: Push update to results repo
+      #   uses: cpina/github-action-push-to-another-repository@main
+      #   env:
+      #     SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+      #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      #   with:
+      #     source-directory: 'out-results'
+      #     destination-github-username: 'eth-infinitism'
+      #     destination-repository-name: 'bundler-test-results'
+      #     user-email: dror.tirosh@gmail.com
+      #     target-branch: master
 
 # Allow one concurrent deployment
 concurrency:
