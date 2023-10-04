@@ -1,0 +1,11 @@
+
+services:
+  bundler:
+    image: accountabstraction/bundler:0.6.2
+    environment:
+      NAME: aa-ref-bundler-0.6.1
+    command: --network $ETH_RPC_URL
+    ports: [ '3000:3000' ]
+    volumes:
+      - ./workdir:/app/workdir:ro
+

@@ -1,19 +1,14 @@
 # start a standlone bundler for testing.
 # bring up a the bundler with its own geth instance
 
-version: '2'
-
 services:
 
   bundler:
-    ports: [ '3000:14337' ]
+    ports: [ '3000:3000' ]
     image: etherspot/skandha
-    command: start --testingMode
+    command: start --testingMode --api.port 3000
     volumes:
       - ./config.json:/usr/app/config.json
     environment:
       - BENCHMARK=true
 
-  geth-dev:
-    build: geth-dev
-    ports: [ '8545:8545' ]

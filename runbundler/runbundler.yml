@@ -1,0 +1,68 @@
+# docker-compose file for a single bundler test.
+# usage:
+#  docker-compose -e runtest.env -f runtest.yml -e BUNDLERYML={bundler.yml} run wait-for-bundler
+# see runenv.env file for more configuration params.
+
+version: '3'
+
+services:
+
+  funder:
+    build: ./funder
+    environment:
+      - FUND=$FUND 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+      - ETH_RPC_URL=$ETH_RPC_URL
+      - ENTRYPOINT=$ENTRYPOINT
+      - VERBOSE=$VERBOSE
+    restart: on-failure:5
+    depends_on:
+      eth-node:
+        condition: service_started
+
+  deployer:
+    build: ./deployer
+    environment:
+      - ETH_RPC_URL=$ETH_RPC_URL
+      - ENTRYPOINT=$ENTRYPOINT
+      - VERBOSE=$VERBOSE
+    restart: no
+    depends_on:
+      funder:
+        condition: service_completed_successfully
+
+  #launch shared node.
+  eth-node:
+    extends:
+      file: $ETH_NODE_YML
+      service: eth-node 
+
+  bundler: 
+    extends:
+      file: $BUNDLER_YML
+      service: bundler
+    depends_on:
+      deployer:
+        condition: service_completed_successfully
+
+  wait-for-bundler:
+    build: ./wait-for-bundler
+    command: $BUNDLER_URL
+    environment:
+      - VERBOSE=$VERBOSE
+    depends_on:
+      bundler:
+        condition: service_started
+
+        #todo: incomplete..
+  runtest:
+    build: ./runtest
+    #    command: $RUNTEST
+    environment:
+      - TEST=pdm run pytest --tb=short -rA -W ignore::DeprecationWarning --url $BUNDLER_URL --entry-point $ENTRYPOINT --ethereum-node $ETH_RPC_URL
+      - ETH_RPC_URL=$ETH_RPC_URL
+      - ENTRYPOINT=$ENTRYPOINT
+      - BUNDLER_URL=$BUNDLER_URL
+    depends_on:
+      wait-for-bundler:
+        condition: service_completed_successfully
+

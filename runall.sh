@@ -5,9 +5,9 @@ BUILD=$root/build
 OUT=$BUILD/out
 test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git
 
-LAUNCHERS="`pwd`/launchers/*.sh"
+BUNDLERS="`pwd`/bundlers/*/*yml"
 if [ -n "$1" -a -r "$1" ]; then
-LAUNCHERS=`pwd`/$1
+BUNDLERS=`realpath $1`
 shift
 fi
 
@@ -21,31 +21,42 @@ pdm install
 pdm update-deps
 fi
 
-
 rm -rf $OUT
 mkdir -p $OUT
 
-for launcher in $LAUNCHERS; do 
-
-#skip folders
-test -d $launcher && continue
+for bundler in $BUNDLERS; do 
 
 echo ====================================================================
-echo ====== `basename $launcher`
+echo ====== $bundler
 echo ====================================================================
 
-basename=`basename -s .sh $launcher`
+basename=`basename -s .yml $bundler`
 outxml=$OUT/$basename.xml
 outjson=$OUT/$basename.json
 outraw=$OUT/$basename.txt
+outlogs=$OUT/$basename.log
 
-name=`$launcher name`
-echo "Running launcher $launcher, name=$name" > $outraw
-OPTIONS="--launcher-script=$launcher --junit-xml $outxml"
-OPTIONS="$OPTIONS -o junit_logging=all -o junit_log_passing_tests=false"
-# --log-rpc
-pdm run test -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
-test -r $outxml && xq . $outxml > $outjson
+#todo: better name to extract the name from the yml file?
+#from actual image, can do docker inspect {imageid} | jq .Config.Env
+name=`sed -ne 's/ *NAME=[ "]*\([^"]*\)"*/\1/p' $bundler`
+
+test -z $name && name=$basename
+
+echo "Running bundler $bundler, name=$name" > $outraw
+if $root/runbundler/runbundler.sh $bundler start; then
+  OPTIONS="
+	--junit-xml $outxml
+	-o junit_logging=all -o junit_log_passing_tests=false
+  "
+  # --log-rpc
+  pdm run test -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
+  test -r $outxml && xq . $outxml > $outjson
+  $root/runbundler/runbundler.sh $bundler logs -t > $outlogs
+
+fi
+
+$root/runbundler/runbundler.sh $bundler down
+
 
 done
 
@@ -53,4 +64,4 @@ ls $OUT > $OUT/index.txt
 
 cd $root
 cp -r html/* build/
-find build -type f
+find $OUT -type f
