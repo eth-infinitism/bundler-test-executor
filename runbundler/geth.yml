@@ -4,7 +4,7 @@ services:
     container_name: geth-1.10
     ports: [ '8545:8545' ]
     image: ethereum/client-go:release-1.10
-    command: --verbosity 3
+    command: --verbosity 2
       --http.vhosts '*,localhost,host.docker.internal'
       --http
       --http.api personal,eth,net,web3,debug

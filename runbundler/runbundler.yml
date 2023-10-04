@@ -44,25 +44,32 @@ services:
       deployer:
         condition: service_completed_successfully
 
-  wait-for-bundler:
-    build: ./wait-for-bundler
-    command: $BUNDLER_URL
-    environment:
-      - VERBOSE=$VERBOSE
+  bundler-waiter:
+    image: ghcr.io/foundry-rs/foundry:latest
+    command: 
+      - sleep 1; cast chain-id -r $BUNDLER_URL
     depends_on:
       bundler:
         condition: service_started
+    restart: on-failure
 
-        #todo: incomplete..
-  runtest:
-    build: ./runtest
-    #    command: $RUNTEST
-    environment:
-      - TEST=pdm run pytest --tb=short -rA -W ignore::DeprecationWarning --url $BUNDLER_URL --entry-point $ENTRYPOINT --ethereum-node $ETH_RPC_URL
-      - ETH_RPC_URL=$ETH_RPC_URL
-      - ENTRYPOINT=$ENTRYPOINT
-      - BUNDLER_URL=$BUNDLER_URL
+  wait-for-bundler:
+    image: ghcr.io/foundry-rs/foundry:latest
+    command: echo started
     depends_on:
-      wait-for-bundler:
+      bundler-waiter:
         condition: service_completed_successfully
+
+  #todo: incomplete..
+  # runtest:
+  #   build: ./runtest
+  #   #    command: $RUNTEST
+  #   environment:
+  #     - TEST=pdm run pytest --tb=short -rA -W ignore::DeprecationWarning --url $BUNDLER_URL --entry-point $ENTRYPOINT --ethereum-node $ETH_RPC_URL
+  #     - ETH_RPC_URL=$ETH_RPC_URL
+  #     - ENTRYPOINT=$ENTRYPOINT
+  #     - BUNDLER_URL=$BUNDLER_URL
+  #   depends_on:
+  #     wait-for-bundler:
+  #       condition: service_completed_successfully
 

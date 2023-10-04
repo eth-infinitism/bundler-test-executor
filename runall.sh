@@ -1,5 +1,5 @@
 #!/bin/bash -e
-root=`cd \`dirname $0\`; pwd`
+root=`realpath \`dirname $0\``
 
 BUILD=$root/build
 OUT=$BUILD/out
@@ -26,8 +26,9 @@ mkdir -p $OUT
 
 for bundler in $BUNDLERS; do 
 
+bundlerTitle=`echo $bundler|perl -pe "s@$root/?@@"`
 echo ====================================================================
-echo ====== $bundler
+echo ====== $bundlerTitle
 echo ====================================================================
 
 basename=`basename -s .yml $bundler`

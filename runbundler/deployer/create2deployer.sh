@@ -1,4 +1,5 @@
 #!/bin/sh -e
+test -n "$VERBOSE" && set -x
 
 test -z "$1" && cat <<EOF && exit 1
 usage: $0 {constructor} [salt]
@@ -31,7 +32,7 @@ fi
 if [ `cast cs $deployerAddress` == 0 ]; then
 
   cast send $CAST_FROM $factoryDeployer --value $deploymentPrice > /dev/null
-  cast publish $deployerDeploymentTransaction > /dev/null
+  cast publish --async $deployerDeploymentTransaction > /dev/null
 fi
 
 salt=${2:-0}

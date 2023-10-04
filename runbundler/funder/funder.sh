@@ -28,10 +28,10 @@ funderBal=`cast balance $funder`
 test "$funderBal" = "0" && fatal "Funder account $funder has no balance"
 
 for addr in $FUND; do
-  len=`echo $addr | wc -c`
+  len=`echo -n $addr | wc -c | xargs`
   case $len in
-	   *43) echo . ;;
-	   *67) addr=`cast wallet address $addr` ;;
+	   42) ;;
+	   64|66) addr=`cast wallet address $addr` ;;
 	   *) fatal "not an address and not privatekey: $addr" ;;
   esac
 
