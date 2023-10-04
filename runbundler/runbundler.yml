@@ -21,7 +21,7 @@ services:
 
   deployer:
     image: accountabstraction/deployer:0.6
-    build: ./deployer
+    # build: ./deployer
     environment:
       - ETH_RPC_URL=$ETH_RPC_URL
       - ENTRYPOINT=$ENTRYPOINT
