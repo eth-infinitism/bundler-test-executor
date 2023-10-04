@@ -1,1 +1,0 @@
-skandha/skandha-launcher.sh
