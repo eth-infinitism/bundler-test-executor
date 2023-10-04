@@ -20,6 +20,7 @@ services:
         condition: service_started
 
   deployer:
+    image: accountabstraction/deployer:0.6
     build: ./deployer
     environment:
       - ETH_RPC_URL=$ETH_RPC_URL
