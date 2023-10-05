@@ -6,9 +6,9 @@ services:
   bundler:
     ports: [ '3000:3000' ]
     image: etherspot/skandha
-    command: start --testingMode --api.port 3000
-    volumes:
-      - ./config.json:/usr/app/config.json
+    command: standalone --testingMode --api.port 3000
     environment:
-      - BENCHMARK=true
-
+      - SKANDHA_DEV_RPC=$ETH_RPC_URL
+      - SKANDHA_DEV_ENTRYPOINTS=0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789
+      - SKANDHA_DEV_RELAYER=test test test test test test test test test test test junk
+      - SKANDHA_DEV_BENEFICIARY=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
