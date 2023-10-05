@@ -1,8 +1,4 @@
-# docker-compose file for a single bundler test.
-# usage:
-#  docker-compose -e runtest.env -f runtest.yml -e BUNDLERYML={bundler.yml} run wait-for-bundler
-# see runenv.env file for more configuration params.
-
+# docker-compose to bring up a single bundler, with all needed services
 version: '3'
 
 services:
@@ -14,7 +10,7 @@ services:
       - ETH_RPC_URL=$ETH_RPC_URL
       - ENTRYPOINT=$ENTRYPOINT
       - VERBOSE=$VERBOSE
-    restart: on-failure:5
+    restart: on-failure:3
     depends_on:
       eth-node:
         condition: service_started
@@ -26,7 +22,6 @@ services:
       - ETH_RPC_URL=$ETH_RPC_URL
       - ENTRYPOINT=$ENTRYPOINT
       - VERBOSE=$VERBOSE
-    restart: on-failure:5
     depends_on:
       funder:
         condition: service_completed_successfully
@@ -48,7 +43,7 @@ services:
   bundler-waiter:
     image: ghcr.io/foundry-rs/foundry:latest
     command: 
-      - sleep 1; cast rpc eth_chainId -r $BUNDLER_URL 2>&1 | grep -m 1 error:
+      - "cast rpc eth_chainId -r $BUNDLER_URL"
     depends_on:
       bundler:
         condition: service_started
