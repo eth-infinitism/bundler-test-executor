@@ -11,6 +11,10 @@ on:
         description: 'dump logs'
         required: false
         type: boolean
+      skip_test:
+        description: 'skip test - check github update'
+        required: false
+        type: boolean
 #  push: 
 #    branches:
 #      - '*'
@@ -69,6 +73,7 @@ jobs:
         name: update submodules of bundler-spec-tests
 
       - run: ./runall.sh ${{ inputs.runall_params }} 
+        if: ${{ ! inputs.skip_test }}
         name: Run all tests ${{ inputs.runall_params }}
 
       - name: dump logs
@@ -82,13 +87,12 @@ jobs:
         uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
           source-directory: 'out-results'
           destination-github-username: 'eth-infinitism'
           destination-repository-name: 'bundler-test-results'
           user-email: dror.tirosh@gmail.com
-          target-branch: master
+          target-branch: new-dockers
 
 # Allow one concurrent deployment
 concurrency:
