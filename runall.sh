@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash 
 root=`realpath \`dirname $0\``
 
 BUILD=$root/build

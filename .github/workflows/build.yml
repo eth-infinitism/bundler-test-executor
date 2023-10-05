@@ -2,6 +2,15 @@ name: Build Test Results Dashboard
 
 on: 
   workflow_dispatch:
+    inputs:
+      runall_params:
+        description: 'Custom runall params'
+        required: false
+        type: string
+      dump_logs:
+        description: 'dump logs'
+        required: false
+        type: boolean
 #  push: 
 #    branches:
 #      - '*'
@@ -59,8 +68,12 @@ jobs:
       - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
         name: update submodules of bundler-spec-tests
 
-      - run: ./runall.sh
-        name: Run all tests.
+      - run: ./runall.sh ${{ inputs.runall_params }} 
+        name: Run all tests ${{ inputs.runall_params }}
+
+      - name: dump logs
+        if: ${{ inputs.dump_logs }}
+        run: grep . build/*/*.log
 
       - name: Clone and update results repo
         run: ./update-results.sh out-results
