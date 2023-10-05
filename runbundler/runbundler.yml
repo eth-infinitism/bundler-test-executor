@@ -48,7 +48,7 @@ services:
   bundler-waiter:
     image: ghcr.io/foundry-rs/foundry:latest
     command: 
-      - sleep 1; cast rpc eth_chainId -r $BUNDLER_URL
+      - sleep 1; cast rpc eth_chainId -r $BUNDLER_URL 2>&1 | grep -m 1 error:
     depends_on:
       bundler:
         condition: service_started

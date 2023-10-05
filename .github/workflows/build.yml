@@ -73,7 +73,7 @@ jobs:
 
       - name: dump logs
         if: ${{ inputs.dump_logs }}
-        run: grep . build/*/*.log
+        run: for d in build/*/*.log; do echo === $d:; cat $d | perl -pe 's/(?:runbundler-)?(\S+?)(?:-1)?[\s|]+(\S+)/$2 $1 /' | sort ; done
 
       - name: Clone and update results repo
         run: ./update-results.sh out-results
