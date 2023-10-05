@@ -6,10 +6,7 @@
       ],
       "relayer": "test test test test test test test test test test test junk",
       "beneficiary": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-      "rpcEndpoint": "http://geth-dev:8545",
-      "minInclusionDenominator": 10,
-      "throttlingSlack": 10,
-      "banSlack": 10
+      "rpcEndpoint": "http://localhost:8545"
     }
   }
 }
