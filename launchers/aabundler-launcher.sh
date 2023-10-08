@@ -1,1 +1,0 @@
-./aabundler/aabundler-launcher.sh

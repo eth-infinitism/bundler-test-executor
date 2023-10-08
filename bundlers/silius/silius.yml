@@ -1,0 +1,26 @@
+services:
+  bundler:
+    image: ghcr.io/vid201/silius:latest
+    command: 
+      - bundler
+      - --eth-client-address
+      - $ETH_RPC_URL
+      - --datadir
+      - data/silius
+      - --mnemonic-file
+      - /root/${BUNDLER_ACCOUNT}
+      - --beneficiary
+      - "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+      - --entry-points 
+      - $ENTRYPOINT
+      - --http 
+      - --http.addr
+      - 0.0.0.0
+      - --http.port
+      - "3000"
+      - --http.api
+      - eth,debug,web3
+    ports: [ '3000:3000' ]
+    volumes:
+      - ./keys:/root
+

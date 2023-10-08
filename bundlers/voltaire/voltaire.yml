@@ -1,0 +1,11 @@
+# start a standlone bundler for testing.
+# bring up a the bundler with its own geth instance
+
+version: '2'
+
+services:
+
+  bundler:
+    ports: [ '3000:3000' ]
+    image: sherifahmed990/voltaire-bundler:0.19
+    command: --entrypoint $ENTRYPOINT --bundler_secret 0xc6cbc5ffad570fdad0544d1b5358a36edeb98d163b6567912ac4754e144d4edb --rpc_url 0.0.0.0 --ethereum_node_url $ETH_RPC_URL --chain_id 1337 --bundle_interval 0 --verbose --debug
