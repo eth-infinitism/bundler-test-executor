@@ -6,27 +6,32 @@ The result page is in: https://www.erc4337.io/bundlers
 
 Or https://bundler-test-results.eip4337.com/
 
-Each bundler to run has a shell script in the [./launchers](./launchers) folder
+Each bundler to run has a folder and yml file [./bundlers](./bundlers) folder
 
 ## To add a bundler to the list:
 
 - Check the [Prerequisites](#prerequisites), below
 - Clone this repo.
-- Create a launcher script in the "launchers" folder, that ends with ".sh"
-- The script should run both bundler and node.
-- The standard node RPC calls should be exposed as http://localhost:8545
-- The bundler-specific RPC calls (eth_ and debug_) should be exposed on http://localhost:3000/rpc
-- See the launcher script for the reference bundler [aabundler-launcher.sh](https://github.com/eth-infinitism/bundlers-test-results/blob/master/launchers/aabundler/aabundler-launcher.sh), that uses "docker-compose" to start and stop the bundler (and geth)
-- To run the tests locally, run the `./runall.sh` script
+- Create a bundler folder and `yml` in the "bundlers" folder.
+- if local files are needed, they should be placed in that bundler-specific folder, and referenced through `volumes:`
+- the folder may contain `.env` for bundler-specific environment params (in addition to the global `./runbundler/.env`)
+- it should reference the node running in `ETH_NODE_URL`, using entrypoint at `ENTRYPOINT` address
+- see the `runbundler/.env` for global settings, like `FUND` for funded addresses.
+- The bundler-specific RPC calls (eth_ and debug_) should be exposed on `BUNDLER_URL`
+- To test bundler startup script:
+  * `./runbundler/runbundler.sh {./runblers/aabundler/aabundler.yml} start` - start the bundler (along with node, and deployed contract)
+  * `down` - stop all docker images.
+  * (or any other docker-compose command, such as `logs`)
+
 - Create a PR to add your launcher to the list.
 - The result page (above) will get updated.
 
 ## Running just a single bundler tests:
 To test a single bundler (instead of running all tests):
 
-`./runall.sh {script} {pytest params}`
-- **script** - the full path to the script (e.g. `./launchers/aabundler-launcher.sh`)
-- **pytest params** - parameters to pass down to pytest. e.g. "`-k GAS`" or "`-x`"
+`./runall.sh {yml} {pytest params}`
+- **yml** - the full path to a bundler yml file (e.g. `./bundlers/aabundler/aabundler.yml`)
+- **pytest params** - parameters to pass down to pytest. e.g. "`-k GASP`" or "`-x`"
 
 
 
