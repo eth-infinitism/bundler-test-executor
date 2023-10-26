@@ -40,6 +40,11 @@ services:
       deployer:
         condition: service_completed_successfully
 
+  bundler-verify:
+    extends:
+      file: $BUNDLER_YML
+      service: bundler-verify
+
   bundler2: 
     extends:
       file: $BUNDLER2_YML
@@ -74,6 +79,13 @@ services:
         condition: service_completed_successfully
       bundler-waiter2:
         condition: service_completed_successfully
+
+networks:
+  #the network where BUNDLER_IP and BUNDLER2_IP reside
+  p2p:
+    ipam:
+      config:
+        - subnet: "192.168.16.0/24"
 
   #todo: incomplete..
   # runtest:
