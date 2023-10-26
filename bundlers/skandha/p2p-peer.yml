@@ -8,6 +8,7 @@ services:
     image: etherspot/skandha
     command: node --testingMode --api.port 3000
       --redirectRpc --executor.bundlingMode manual 
+      --p2p.enrHost 172.30.0.4
       --p2p.bootEnrs $ENR
     environment:
       - SKANDHA_DEV_RPC=$ETH_RPC_URL

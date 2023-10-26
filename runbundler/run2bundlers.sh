@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 dir=`dirname $0`
 
 if [ -z "$2" ] ; then

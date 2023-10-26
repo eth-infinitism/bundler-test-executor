@@ -7,6 +7,7 @@ services:
     ports: [ '3000:3000' ]
     image: etherspot/skandha
     command: node --testingMode --api.port 3000
+      --p2p.enrHost 172.30.0.3
       --redirectRpc --executor.bundlingMode manual 
     volumes:
       - ./bootDataDir/peer-id.json:/root/.skandha/db/peer-id.json
@@ -15,3 +16,9 @@ services:
       - SKANDHA_DEV_ENTRYPOINTS=${ENTRYPOINT}
       - SKANDHA_DEV_RELAYER=test test test test test test test test test test test junk
       - SKANDHA_DEV_BENEFICIARY=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+
+  #TODO: this IP depends on docker-compose structure. 
+  #exposed with: 
+  # docker exec -ti bundler-1 /bin/sh -c "ip -o -4 address"
+  # docker exec -ti bundler-1 /bin/sh -c "cat /etc/hosts"
+  # docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' bundler-1
