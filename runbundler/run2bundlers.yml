@@ -4,7 +4,7 @@ version: '3'
 services:
 
   funder:
-    build: ./funder
+    build: ./runbundler/funder
     environment:
       - FUND=$FUND 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
       - ETH_RPC_URL=$ETH_RPC_URL
@@ -85,7 +85,7 @@ networks:
   p2p:
     ipam:
       config:
-        - subnet: "192.168.16.0/24"
+        - subnet: "$P2P_SUBNET"
 
   #todo: incomplete..
   # runtest:
