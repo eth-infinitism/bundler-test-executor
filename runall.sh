@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash  -x
 root=`realpath \`dirname $0\``
 
 BUILD=$root/build
@@ -31,7 +31,7 @@ echo ====================================================================
 echo ====== $bundlerTitle
 echo ====================================================================
 
-basename=`basename -s .yml $bundler`
+basename=`basename -s .env \`basename -s .yml $bundler\``
 outxml=$OUT/$basename.xml
 outjson=$OUT/$basename.json
 outraw=$OUT/$basename.txt

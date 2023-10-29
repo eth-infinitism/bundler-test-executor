@@ -1,5 +1,6 @@
-#!/bin/bash  -x
+#!/bin/bash 
 dir=`dirname $0`
+root=`cd $dir/.. ; pwd`
 
 function usage() {
 cat <<EOF
@@ -19,7 +20,7 @@ exit 1
 
 }
 
-file=$1
+file=`realpath $1`
 cmd=$2
 shift
 shift
@@ -31,7 +32,7 @@ case "$file" in
 		export DCFILE="$dir/runbundler.yml"
 		export DCPARAMS="--env-file $dir/runbundler.env"
 		ENVFILE=`dirname $BUNDLER_YML`/.env
-		test -r $ENVFILE && DCPARAMS="$DCPARAMS --env-file $ENVFILE"
+		test -r "$root/$ENVFILE" && DCPARAMS="$DCPARAMS --env-file $root/$ENVFILE"
 		export BUNDLER_YML=$file
 		;;
 
@@ -39,14 +40,14 @@ case "$file" in
 		export DCFILE="$dir/run2bundlers.yml"
 		export DCPARAMS="--env-file $dir/run2bundlers.env"
 		source $file
-		test -r "$ENVFILE" && DCPARAMS="$DCPARAMS --env-file $ENVFILE"
-		test -r "$ENVFILE2" && DCPARAMS="$DCPARAMS --env-file $ENVFILE2"
+		test -n "$ENVFILE" && test -r "$root/$ENVFILE" && DCPARAMS="$DCPARAMS --env-file $root/$ENVFILE"
+		test -n "$ENVFILE2" && test -r "$root/$ENVFILE2" && DCPARAMS="$DCPARAMS --env-file $root/$ENVFILE2"
 		;;
 	*)	usage ;;
 
 esac
 
-DC="docker-compose $DCPARAMS -f $dir/../empty.yml -f $DCFILE"
+DC="docker-compose $DCPARAMS -f $root/empty.yml -f $DCFILE"
 cmd=$cmd
 case "$cmd" in 
 
