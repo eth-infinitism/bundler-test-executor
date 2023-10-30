@@ -37,6 +37,20 @@ outjson=$OUT/$basename.json
 outraw=$OUT/$basename.txt
 outlogs=$OUT/$basename.log
 
+function getEnv {
+  envFile=$1
+  name=$2
+  def=$3
+  
+  val=`sh -c "source $envFile; echo \\\$$name"`
+  echo ${val:-$def}
+}
+
+case "$bundler" in
+  *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/one` ;;
+  *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ;;
+esac
+
 #todo: better name to extract the name from the yml file?
 #from actual image, can do docker inspect {imageid} | jq .Config.Env
 name=`sed -ne 's/ *NAME=[ "]*\([^"]*\)"*/\1/p' $bundler`
@@ -45,9 +59,16 @@ test -z $name && name=$basename
 
 echo "Running bundler $bundler, name=$name" > $outraw
 if $root/runbundler/runbundler.sh $bundler start; then
+
+  case "$bunder" in
+    *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/one` ;;
+    *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ;;
+  esac
+
   OPTIONS="
 	--junit-xml $outxml
 	-o junit_logging=all -o junit_log_passing_tests=false
+  $PYTEST_FOLDER
   "
   # --log-rpc
   pdm run test -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
