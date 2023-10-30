@@ -1,6 +1,6 @@
 services:
   bundler:
-    image: ghcr.io/vid201/silius:latest
+    image: ghcr.io/silius-rs/silius:latest
     command: 
       - bundler
       - --eth-client-address
