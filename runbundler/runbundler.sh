@@ -31,8 +31,9 @@ case "$file" in
 	*.yml)
 		export DCFILE="$dir/runbundler.yml"
 		export DCPARAMS="--env-file $dir/runbundler.env"
-		ENVFILE=`dirname $BUNDLER_YML`/.env
-		test -r "$root/$ENVFILE" && DCPARAMS="$DCPARAMS --env-file $root/$ENVFILE"
+		envfile1=`dirname $file`/.env
+		ENVFILE=`cd $root; realpath $envfile1 2> /dev/null`
+		test -r "$ENVFILE" && DCPARAMS="$DCPARAMS --env-file $ENVFILE"
 		export BUNDLER_YML=$file
 		;;
 
