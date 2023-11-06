@@ -5,7 +5,10 @@ BUILD=$root/build
 OUT=$BUILD/out
 test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git
 
-BUNDLERS="`pwd`/bundlers/*/*yml"
+#by default, run all single-bundler configs
+BUNDLERS=`ls $root/bundlers/*/*yml|grep -v p2p`
+
+#if parameter is given, use it as single-bundler yml, or as testenv file
 if [ -n "$1" -a -r "$1" ]; then
 BUNDLERS=`realpath $1`
 shift
