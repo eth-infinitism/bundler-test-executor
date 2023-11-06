@@ -49,7 +49,7 @@ services:
         condition: service_started
     restart: on-failure:5
 
-  wait-for-bundler:
+  wait-all:
     image: ghcr.io/foundry-rs/foundry:latest
     command: echo started
     depends_on:
@@ -66,6 +66,6 @@ services:
   #     - ENTRYPOINT=$ENTRYPOINT
   #     - BUNDLER_URL=$BUNDLER_URL
   #   depends_on:
-  #     wait-for-bundler:
+  #     wait-all:
   #       condition: service_completed_successfully
 

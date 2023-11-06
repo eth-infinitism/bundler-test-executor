@@ -8,7 +8,7 @@ usage: $0 {ymlfile|testfile} {start|stop|..}
   ymlfile -  a single bundler yml file. uses DCFILE="runbundler.yml"
   testfile - env file to define all launch env. params.
   cmd:
-  	start (wait for wait-for-bundler task to exit)
+  	start (wait for wait-all task to complete)
   	any docker-compose command (e.g: up,start,down,logs)
   testfile expected env.vars:
     DCFILE - the docker-compose.yml file to use. defaults to run2bundlers.yml
@@ -51,7 +51,7 @@ DC="docker-compose $DCPARAMS -f $root/empty.yml -f $DCFILE"
 cmd=$cmd
 case "$cmd" in 
 
-	start) $DC run --rm wait-for-bundler ;;
+	start) $DC run --rm wait-all ;;
 	down) $DC down -t 1 ;;
 	stop) $DC stop -t 1 ;;
 	#execute misc docker-compose command

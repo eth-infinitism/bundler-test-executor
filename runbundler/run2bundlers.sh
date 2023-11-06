@@ -22,7 +22,7 @@ shift
 shift
 case "$cmd" in 
 
-	start) $DC run --rm wait-for-bundler ;;
+	start) $DC run --rm wait-all ;;
         down) $DC down -t 1 ;;
 	stop) $DC stop -t 1 ;;
 	#execute misc docker-compose command
