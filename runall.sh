@@ -49,11 +49,6 @@ function getEnv {
   echo ${val:-$def}
 }
 
-case "$bundler" in
-  *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/one` ;;
-  *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ;;
-esac
-
 #todo: better name to extract the name from the yml file?
 #from actual image, can do docker inspect {imageid} | jq .Config.Env
 name=`sed -ne 's/ *NAME=[ "]*\([^"]*\)"*/\1/p' $bundler`
@@ -64,7 +59,7 @@ echo "Running bundler $bundler, name=$name" > $outraw
 if $root/runbundler/runbundler.sh $bundler start; then
 
   case "$bunder" in
-    *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/one` ;;
+    *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/single` ;;
     *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ;;
   esac
 
