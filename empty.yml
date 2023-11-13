@@ -1,0 +1,4 @@
+#first "docker-compose" file referenced by "runbundler"
+#Used to make sure all paths are relative to project root,
+#regardless from where the "real" docker-compose is loaded.
+version: '3'

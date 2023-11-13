@@ -1,0 +1,34 @@
+# start a standlone bundler for testing.
+# bring up a the bundler with its own geth instance
+
+#TODO: we assume that the boot bundler exposes BOOT_ENR 
+# need to EITHER receive ENR as parameter, or validate we generate exactly the same one.
+services:
+
+  bundler:
+    ports: [ '3000:3000' ]
+    image: etherspot/skandha
+    command: node --testingMode --api.port 3000
+      --p2p.enrHost $BUNDLER_IP
+      --redirectRpc --executor.bundlingMode manual 
+    networks:
+      default:
+      p2p:
+        ipv4_address: $BUNDLER_IP
+    volumes:
+      - ./bootDataDir/peer-id.json:/root/.skandha/db/peer-id.json
+    environment:
+      - SKANDHA_DEV_RPC=$ETH_RPC_URL
+      - SKANDHA_DEV_ENTRYPOINTS=${ENTRYPOINT}
+      - SKANDHA_DEV_RELAYER=test test test test test test test test test test test junk
+      - SKANDHA_DEV_BENEFICIARY=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+
+
+  bundler-verify:
+    image: docker
+    # volumes:
+    #   - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      bundler:
+        condition: service_started
+    command: echo docker exec runbundler-bundler-1 cat /root/.skandha/db/enr

@@ -40,12 +40,34 @@ services:
       deployer:
         condition: service_completed_successfully
 
+  bundler-verify:
+    extends:
+      file: $BUNDLER_YML
+      service: bundler-verify
+
+  bundler2: 
+    extends:
+      file: $BUNDLER2_YML
+      service: bundler
+    depends_on:
+      bundler-waiter:
+        condition: service_completed_successfully
+
   bundler-waiter:
     image: ghcr.io/foundry-rs/foundry:latest
     command: 
-      - "cast rpc eth_chainId -r $BUNDLER_URL"
+      - "sleep 1; cast rpc eth_chainId -r $BUNDLER_URL"
     depends_on:
       bundler:
+        condition: service_started
+    restart: on-failure:5
+
+  bundler-waiter2:
+    image: ghcr.io/foundry-rs/foundry:latest
+    command: 
+      - "sleep 1; cast rpc eth_chainId -r $BUNDLER2_URL"
+    depends_on:
+      bundler2:
         condition: service_started
     restart: on-failure:5
 
@@ -55,6 +77,15 @@ services:
     depends_on:
       bundler-waiter:
         condition: service_completed_successfully
+      bundler-waiter2:
+        condition: service_completed_successfully
+
+networks:
+  #the network where BUNDLER_IP and BUNDLER2_IP reside
+  p2p:
+    ipam:
+      config:
+        - subnet: "$P2P_SUBNET"
 
   #todo: incomplete..
   # runtest:

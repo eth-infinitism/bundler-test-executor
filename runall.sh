@@ -1,11 +1,14 @@
-#!/bin/bash 
+#!/bin/bash  -x
 root=`realpath \`dirname $0\``
 
 BUILD=$root/build
 OUT=$BUILD/out
 test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git
 
-BUNDLERS="`pwd`/bundlers/*/*yml"
+#by default, run all single-bundler configs
+BUNDLERS=`ls $root/bundlers/*/*yml|grep -v p2p`
+
+#if parameter is given, use it as single-bundler yml, or as testenv file
 if [ -n "$1" -a -r "$1" ]; then
 BUNDLERS=`realpath $1`
 shift
@@ -31,11 +34,20 @@ echo ====================================================================
 echo ====== $bundlerTitle
 echo ====================================================================
 
-basename=`basename -s .yml $bundler`
+basename=`basename -s .env \`basename -s .yml $bundler\``
 outxml=$OUT/$basename.xml
 outjson=$OUT/$basename.json
 outraw=$OUT/$basename.txt
 outlogs=$OUT/$basename.log
+
+function getEnv {
+  envFile=$1
+  name=$2
+  def=$3
+  
+  val=`sh -c "source $envFile; echo \\\$$name"`
+  echo ${val:-$def}
+}
 
 #todo: better name to extract the name from the yml file?
 #from actual image, can do docker inspect {imageid} | jq .Config.Env
@@ -45,9 +57,16 @@ test -z $name && name=$basename
 
 echo "Running bundler $bundler, name=$name" > $outraw
 if $root/runbundler/runbundler.sh $bundler start; then
+
+  case "$bunder" in
+    *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/single` ;;
+    *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ;;
+  esac
+
   OPTIONS="
 	--junit-xml $outxml
 	-o junit_logging=all -o junit_log_passing_tests=false
+  $PYTEST_FOLDER
   "
   # --log-rpc
   pdm run test -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw

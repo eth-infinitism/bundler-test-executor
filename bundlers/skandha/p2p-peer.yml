@@ -1,0 +1,22 @@
+# start a standlone bundler for testing.
+# bring up a the bundler with its own geth instance
+
+services:
+
+  bundler:
+    ports: [ "3001:3000" ]
+    image: etherspot/skandha
+    command: node --testingMode --api.port 3000
+      --redirectRpc --executor.bundlingMode manual 
+      --p2p.enrHost $BUNDLER2_IP
+      --p2p.bootEnrs $BOOT_ENR
+    networks:
+      default:
+      p2p:
+        ipv4_address: $BUNDLER2_IP
+    environment:
+      - SKANDHA_DEV_RPC=$ETH_RPC_URL
+      - SKANDHA_DEV_ENTRYPOINTS=${ENTRYPOINT}
+      - SKANDHA_DEV_RELAYER=junk junk junk junk junk junk junk junk junk junk junk test
+      - SKANDHA_DEV_BENEFICIARY=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+
