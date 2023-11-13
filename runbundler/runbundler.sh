@@ -1,4 +1,7 @@
 #!/bin/bash 
+
+test -n "$VERBOSE" && set -x
+
 dir=`dirname $0`
 root=`cd $dir/.. ; pwd`
 

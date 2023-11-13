@@ -12,6 +12,10 @@ on:
         description: 'dump logs'
         required: false
         type: boolean
+      verbose:
+        description: 'verbose script logging'
+        required: false
+        type: boolean
       skip_test:
         description: 'skip test - check github update'
         required: false
@@ -73,7 +77,7 @@ jobs:
       - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
         name: update submodules of bundler-spec-tests
 
-      - run: ./runall.sh ${{ inputs.runall_params }} 
+      - run: VERBOSE=${{ inputs.verbose }} ./runall.sh ${{ inputs.runall_params }} 
         if: ${{ ! inputs.skip_test }}
         name: Run all tests ${{ inputs.runall_params }}
 
