@@ -51,6 +51,8 @@ case "$file" in
 
 esac
 
+docker-compose --version
+
 DC="docker-compose $DCPARAMS -f $root/empty.yml -f $DCFILE"
 cmd=$cmd
 case "$cmd" in 

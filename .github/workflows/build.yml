@@ -12,10 +12,15 @@ on:
         description: 'dump logs'
         required: false
         type: boolean
+
       verbose:
         description: 'verbose script logging'
+        type: choice
         required: false
-        type: boolean
+        options: 
+          - 
+          - true
+
       skip_test:
         description: 'skip test - check github update'
         required: false
