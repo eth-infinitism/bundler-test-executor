@@ -86,6 +86,9 @@ jobs:
         if: ${{ ! inputs.skip_test }}
         name: Run all tests ${{ inputs.runall_params }}
 
+      - name: "Test summary"
+        run: grep -r '===.* in ' build/
+
       - name: dump logs
         if: ${{ inputs.dump_logs }}
         run: for d in build/*/*.log; do echo === $d:; cat $d | perl -pe 's/(?:runbundler-)?(\S+?)(?:-1)?[\s|]+(\S+)/$2 $1 /' | sort ; done
