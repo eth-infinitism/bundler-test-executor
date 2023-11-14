@@ -23,6 +23,13 @@ exit 1
 
 }
 
+#collect envfiles into TMPENV (docker-compose v1.x can get only a single env file..)
+TMPENV=/tmp/tmp.env
+
+function docker-compose1 {
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:$PWD" -v $TMPENV:$TMPENV -w="$PWD" docker/compose:1.29.2 "$@"
+}
+
 file=`realpath $1`
 cmd=$2
 shift
@@ -33,25 +40,25 @@ test -z "$cmd" && usage
 case "$file" in 
 	*.yml)
 		export DCFILE="$dir/runbundler.yml"
-		export DCPARAMS="--env-file $dir/runbundler.env"
+		cat $dir/runbundler.env > $TMPENV
+		export DCPARAMS="--env-file $TMPENV"
+		echo BUNDLER_YML=$file >> $TMPENV
 		envfile1=`dirname $file`/.env
 		ENVFILE=`cd $root; realpath $envfile1 2> /dev/null`
-		test -r "$ENVFILE" && DCPARAMS="$DCPARAMS --env-file $ENVFILE"
-		export BUNDLER_YML=$file
+		test -r "$ENVFILE" && cat $ENVFILE >> $TMPENV
 		;;
 
 	*.env)
 		export DCFILE="$dir/run2bundlers.yml"
-		export DCPARAMS="--env-file $dir/run2bundlers.env"
+		cat $dir/run2bundlers.env > $TMPENV
+		export DCPARAMS="--env-file $TMPENV"
 		source $file
-		test -n "$ENVFILE" && test -r "$root/$ENVFILE" && DCPARAMS="$DCPARAMS --env-file $root/$ENVFILE"
-		test -n "$ENVFILE2" && test -r "$root/$ENVFILE2" && DCPARAMS="$DCPARAMS --env-file $root/$ENVFILE2"
+		test -n "$ENVFILE" && test -r "$root/$ENVFILE" && cat $root/$ENVFILE >> $TMPENV
+		test -n "$ENVFILE2" && test -r "$root/$ENVFILE2" && cat $root/$ENVFILE >> $TMPENV
 		;;
 	*)	usage ;;
 
 esac
-
-docker-compose --version
 
 DC="docker-compose $DCPARAMS -f $root/empty.yml -f $DCFILE"
 cmd=$cmd
