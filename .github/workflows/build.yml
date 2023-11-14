@@ -53,7 +53,9 @@ jobs:
       - run: echo $PATH
       - run: echo '<hello>a<world tag="123"/>b</hello>' | xq
 
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
 
       # - uses: actions/checkout@v3
       #   with:
@@ -87,7 +89,7 @@ jobs:
         name: Run all tests ${{ inputs.runall_params }}
 
       - name: "Test summary"
-        run: pwd; grep -r '===.* in ' build/
+        run: "pwd; find build; find */build; grep -r '===.* in ' `find . -path '*build/out*txt'` "
 
       - name: dump logs
         if: ${{ inputs.dump_logs }}
