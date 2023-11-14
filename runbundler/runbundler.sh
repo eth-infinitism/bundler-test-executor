@@ -27,7 +27,7 @@ exit 1
 TMPENV=/tmp/tmp.env
 
 function docker-compose {
-docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:$PWD" -v $TMPENV:$TMPENV -w="$PWD" docker:24-cli compose "$@"
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:$PWD" -v $TMPENV:$TMPENV -w="$PWD" docker:24-cli compose "$@"
 }
 
 file=`realpath $1`
