@@ -26,8 +26,8 @@ exit 1
 #collect envfiles into TMPENV (docker-compose v1.x can get only a single env file..)
 TMPENV=/tmp/tmp.env
 
-function docker-compose1 {
-docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:$PWD" -v $TMPENV:$TMPENV -w="$PWD" docker/compose:1.29.2 "$@"
+function docker-compose {
+docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:$PWD" -v $TMPENV:$TMPENV -w="$PWD" docker:24-cli compose "$@"
 }
 
 file=`realpath $1`
