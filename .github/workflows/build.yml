@@ -87,7 +87,7 @@ jobs:
         name: Run all tests ${{ inputs.runall_params }}
 
       - name: "Test summary"
-        run: grep -r '===.* in ' build/
+        run: pwd; grep -r '===.* in ' build/
 
       - name: dump logs
         if: ${{ inputs.dump_logs }}
