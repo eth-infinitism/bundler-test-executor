@@ -89,7 +89,7 @@ jobs:
         name: Run all tests ${{ inputs.runall_params }}
 
       - name: "Test summary"
-        run: "pwd; find build; find */build; grep -r '===.* in ' `find . -path '*build/out*txt'` "
+        run: "pwd; find build; find . -path . -path '*build/out*txt' -ls ; grep -r '===.* in ' `find . -path '*build/out*txt'` "
 
       - name: dump logs
         if: ${{ inputs.dump_logs }}
