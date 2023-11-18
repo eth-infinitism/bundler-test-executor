@@ -12,6 +12,15 @@ on:
         description: 'dump logs'
         required: false
         type: boolean
+
+      verbose:
+        description: 'verbose script logging'
+        type: choice
+        required: false
+        options: 
+          - 
+          - true
+
       skip_test:
         description: 'skip test - check github update'
         required: false
@@ -41,10 +50,10 @@ jobs:
 
       - run: pip install jq yq
       - run: which xq
-      - run: echo $PATH
-      - run: echo '<hello>a<world tag="123"/>b</hello>' | xq
 
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
 
       # - uses: actions/checkout@v3
       #   with:
@@ -73,9 +82,12 @@ jobs:
       - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
         name: update submodules of bundler-spec-tests
 
-      - run: ./runall.sh ${{ inputs.runall_params }} 
+      - run: VERBOSE=${{ inputs.verbose }} ./runall.sh ${{ inputs.runall_params }} 
         if: ${{ ! inputs.skip_test }}
         name: Run all tests ${{ inputs.runall_params }}
+
+      - name: "Test summary"
+        run: "grep -r '===.* in ' `find . -path '*build/out*txt'`| sed -e 's/===*//g' "
 
       - name: dump logs
         if: ${{ inputs.dump_logs }}

@@ -1,4 +1,7 @@
-#!/bin/bash  -x
+#!/bin/bash 
+
+test -n "$VERBOSE" && set -x
+
 root=`realpath \`dirname $0\``
 
 BUILD=$root/build

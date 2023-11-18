@@ -1,4 +1,7 @@
 #!/bin/bash -e
+
+test -n "$VERBOSE" && set -x
+
 dir=`dirname $0`
 
 if [ -z "$2" ] ; then
