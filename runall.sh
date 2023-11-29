@@ -61,18 +61,17 @@ test -z $name && name=$basename
 echo "Running bundler $bundler, name=$name" > $outraw
 if $root/runbundler/runbundler.sh $bundler start; then
 
-  case "$bunder" in
-    *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/single` ;;
-    *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ;;
+  case "$bundler" in
+    *yml) PDM_RUN_TEST=`getEnv $root/runbundler/runbundler.env PDM_RUN_TEST "pdm run test"` ;;
+    *env) PDM_RUN_TEST=`getEnv $bundler PDM_RUN_TEST "pdm run p2ptest"` ;;
   esac
 
   OPTIONS="
 	--junit-xml $outxml
 	-o junit_logging=all -o junit_log_passing_tests=false
-  $PYTEST_FOLDER
   "
   # --log-rpc
-  pdm run test -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
+  $PDM_RUN_TEST -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
   test -r $outxml && xq . $outxml > $outjson
 
 fi

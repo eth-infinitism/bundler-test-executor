@@ -1,3 +1,4 @@
 /build/
 /bundler-spec-tests/
 /out-results/
+.DS_Store
