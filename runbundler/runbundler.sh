@@ -54,7 +54,7 @@ case "$file" in
 		export DCPARAMS="--env-file $TMPENV"
 		source $file
 		test -n "$ENVFILE" && test -r "$root/$ENVFILE" && cat $root/$ENVFILE >> $TMPENV
-		test -n "$ENVFILE2" && test -r "$root/$ENVFILE2" && cat $root/$ENVFILE >> $TMPENV
+		test -n "$ENVFILE2" && test -r "$root/$ENVFILE2" && cat $root/$ENVFILE2 >> $TMPENV
 		;;
 	*)	usage ;;
 
