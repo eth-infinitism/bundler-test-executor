@@ -1,0 +1,8 @@
+services:
+  bundler:
+    image: txgyy/ok_bund:latest
+    environment:
+      - ETH_RPC_URL=$ETH_RPC_URL
+      - ENTRYPOINT=$ENTRYPOINT
+    ports: [ '3000:3000' ]
+    command: java -jar ./aa-starter/target/aa-starter-0.0.1.jar
