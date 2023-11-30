@@ -40,10 +40,12 @@ services:
       deployer:
         condition: service_completed_successfully
 
-  bundler-verify:
-    extends:
-      file: $BUNDLER_YML
-      service: bundler-verify
+#TODO (incomplete): helper service to do sanity on bootnode
+# (make sure it matches configured BOOT_ENR)
+  # bundler-verify:
+  #   extends:
+  #     file: $BUNDLER_YML
+  #     service: bundler-verify
 
   bundler2: 
     extends:
