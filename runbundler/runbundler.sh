@@ -30,6 +30,12 @@ function docker-compose1 {
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $root:$root -v $TMPENV:$TMPENV -w="$PWD" docker:24-cli compose "$@"
 }
 
+function envFileFor {
+	file=$1
+	envfile=`perl -e "\$file=$file;" -e '$file=~s/[.]\w+/.env/; print $file'`;
+	test -r $envfile && cat $envfile
+}
+
 file=`realpath $1`
 cmd=$2
 shift
