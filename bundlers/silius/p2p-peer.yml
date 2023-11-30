@@ -13,6 +13,8 @@ services:
       --http.port 3000
       --http.api eth,debug,web3
       --bootnodes $BOOT_ENR
+      --p2p.addr $BUNDLER2_IP
+      --p2p.baddr $BUNDLER2_IP
     volumes:
       - ./keys:/root
     networks:

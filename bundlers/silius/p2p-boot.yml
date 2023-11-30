@@ -13,6 +13,7 @@ services:
       --http.port 3000
       --http.api eth,debug,web3
       --enable-p2p
+      --p2p.addr $BUNDLER_IP
       --p2p.baddr $BUNDLER_IP
     volumes:
       - ./keys:/root
