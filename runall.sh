@@ -80,6 +80,7 @@ if $root/runbundler/runbundler.sh $bundler pull-start; then
 fi
 
 echo "`date`: done bundler $bundler, name=$name" | tee -a $outraw
+$root/runbundler/runbundler.sh $bundler images | tee -a $outraw
 
 $root/runbundler/runbundler.sh $bundler logs -t > $outlogs
 $root/runbundler/runbundler.sh $bundler down
