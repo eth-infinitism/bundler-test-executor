@@ -77,7 +77,7 @@ jobs:
         if: ${{ ! inputs.ignore_cache }}
         with:
           path: bundler-spec-tests
-          key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/@account-abstraction/contracts/**/*.sol') }}
 
       - run: cd bundler-spec-tests; git checkout
         name: "re-checkout bundler-spec-tests (on top of cache)"
