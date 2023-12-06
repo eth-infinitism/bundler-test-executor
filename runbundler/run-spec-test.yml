@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  run-spec-test:
+    image: accountabstraction/run-spec-test
+    build: 
+      context: .
+      dockerfile: ./runbundler/run-spec-test/Dockerfile
+    depends_on:
+      wait-all:
+        condition: service_completed_successfully
+    volumes:
+      - ./bundler-spec-tests:/app
+    working_dir: /app
+    command: pytest
+      --tb=short -rA -W ignore::DeprecationWarning 
+      --url $BUNDLER_URL
+      --ethereum-node $ETH_RPC_URL
+      --entry-point $ENTRYPOINT
+      tests/single
+      -v
+      -k gasp

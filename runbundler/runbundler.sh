@@ -68,6 +68,7 @@ case "$cmd" in
 	pull-start) $DC pull --quiet && $DC config|grep image && $DC run --rm wait-all ;; 
 	down) $DC down -t 1 ;;
 	stop) $DC stop -t 1 ;;
+	test) $DC -f $dir/run-spec-test.yml run --rm run-spec-test ;;
 	#execute misc docker-compose command
 	*) $DC $cmd $* ;;
 
