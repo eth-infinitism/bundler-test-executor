@@ -59,7 +59,7 @@ name=`sed -ne 's/ *NAME=[ "]*\([^"]*\)"*/\1/p' $bundler`
 test -z $name && name=$basename
 
 echo "Running bundler $bundler, name=$name" > $outraw
-if $root/runbundler/runbundler.sh $bundler start; then
+if $root/runbundler/runbundler.sh $bundler pull-start; then
 
   case "$bunder" in
     *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/single` ;;
