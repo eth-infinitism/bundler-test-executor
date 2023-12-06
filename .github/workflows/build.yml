@@ -25,6 +25,11 @@ on:
         description: 'skip test - check github update'
         required: false
         type: boolean
+
+      ignore_cache:
+        description: 'ignore cache'
+        required: false
+        type: boolean
 #  push: 
 #    branches:
 #      - '*'
@@ -69,9 +74,10 @@ jobs:
 
       # restore cache of bundler-spec-tests, and its submodules
       - uses: actions/cache@v3
+        if: ${{ ! inputs.ignore_cache }}
         with:
           path: bundler-spec-tests
-          key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('bundler-spec-tests/pdm.lock', 'bundler-spec-tests/@account-abstraction/contracts/**/*.sol') }}
 
       - run: cd bundler-spec-tests; git checkout
         name: "re-checkout bundler-spec-tests (on top of cache)"

@@ -60,7 +60,7 @@ services:
     depends_on:
       bundler:
         condition: service_started
-    restart: on-failure:5
+    restart: on-failure:10
 
   bundler-waiter2:
     image: ghcr.io/foundry-rs/foundry:latest
@@ -69,7 +69,7 @@ services:
     depends_on:
       bundler2:
         condition: service_started
-    restart: on-failure:5
+    restart: on-failure:10
 
   wait-all:
     image: ghcr.io/foundry-rs/foundry:latest

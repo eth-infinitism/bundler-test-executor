@@ -65,6 +65,7 @@ cmd=$cmd
 case "$cmd" in 
 
 	start) $DC run --rm wait-all ;;
+	pull-start) $DC pull --quiet && $DC config|grep image && $DC run --rm wait-all ;; 
 	down) $DC down -t 1 ;;
 	stop) $DC stop -t 1 ;;
 	#execute misc docker-compose command

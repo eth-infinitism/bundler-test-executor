@@ -43,16 +43,19 @@ services:
   bundler-waiter:
     image: ghcr.io/foundry-rs/foundry:latest
     command: 
-      - "cast rpc eth_chainId -r $BUNDLER_URL"
+      - "sleep 2; cast rpc eth_chainId -r $BUNDLER_URL"
     depends_on:
-      bundler:
-        condition: service_started
-    restart: on-failure:5
+      #not depending on bundler: if bundler process aborts, this "waiter" would hang forever..
+      deployer:
+        condition: service_completed_successfully
+    restart: on-failure:10
 
   wait-all:
     image: ghcr.io/foundry-rs/foundry:latest
     command: echo started
     depends_on:
+      bundler:
+        condition: service_started
       bundler-waiter:
         condition: service_completed_successfully
 
