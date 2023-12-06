@@ -58,8 +58,10 @@ name=`sed -ne 's/ *NAME=[ "]*\([^"]*\)"*/\1/p' $bundler`
 
 test -z $name && name=$basename
 
-echo "Running bundler $bundler, name=$name" > $outraw
+echo "`date`: starting bundler $bundler, name=$name" | tee -a $outraw
 if $root/runbundler/runbundler.sh $bundler pull-start; then
+
+  echo "`date`: started bundler $bundler, name=$name" | tee -a $outraw
 
   case "$bunder" in
     *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/single` ;;
@@ -76,6 +78,8 @@ if $root/runbundler/runbundler.sh $bundler pull-start; then
   test -r $outxml && xq . $outxml > $outjson
 
 fi
+
+echo "`date`: done bundler $bundler, name=$name" | tee -a $outraw
 
 $root/runbundler/runbundler.sh $bundler logs -t > $outlogs
 $root/runbundler/runbundler.sh $bundler down
