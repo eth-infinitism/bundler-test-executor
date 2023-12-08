@@ -4,7 +4,7 @@ This repo runs the `bundler-spec-test` against a list of bundlers, and show the 
 
 The result page is in: https://www.erc4337.io/bundlers
 
-Or https://bundler-test-results.eip4337.com/
+Or https://bundler-test-results.erc4337.io/
 
 Each bundler to run has a folder and yml file [./bundlers](./bundlers) folder
 
@@ -19,7 +19,7 @@ Each bundler to run has a folder and yml file [./bundlers](./bundlers) folder
 - see the `runbundler/.env` for global settings, like `FUND` for funded addresses.
 - The bundler-specific RPC calls (eth_ and debug_) should be exposed on `BUNDLER_URL`
 - To test bundler startup script:
-  * `./runbundler/runbundler.sh {./runblers/aabundler/aabundler.yml} start` - start the bundler (along with node, and deployed contract)
+  * `./runbundler/runbundler.sh {./bundlers/aabundler/aabundler.yml} start` - start the bundler (along with node, and deployed contract)
   * `down` - stop all docker images.
   * (or any other docker-compose command, such as `logs`)
 
@@ -32,8 +32,6 @@ To test a single bundler (instead of running all tests):
 `./runall.sh {yml} {pytest params}`
 - **yml** - the full path to a bundler yml file (e.g. `./bundlers/aabundler/aabundler.yml`)
 - **pytest params** - parameters to pass down to pytest. e.g. "`-k GASP`" or "`-x`"
-
-
 
 ## Prerequisites
 
