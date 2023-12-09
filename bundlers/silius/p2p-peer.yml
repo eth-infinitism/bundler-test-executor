@@ -1,24 +1,24 @@
 services:
-
   bundler:
     ports: [ "3001:3000" ]
     image: ghcr.io/silius-rs/silius:latest
-    command: bundler
+    command: node
       --eth-client-address $ETH_RPC_URL
       --datadir data/silius
       --mnemonic-file /root/${BUNDLER_ACCOUNT}
       --beneficiary ${BUNDLER_ACCOUNT}
       --entry-points $ENTRYPOINT
-      --http --http.addr 0.0.0.0
+      --http --http.addr 0.0.0.0  
       --http.port 3000
       --http.api eth,debug,web3
+      --enable-p2p
       --bootnodes $BOOT_ENR
       --p2p.addr $BUNDLER2_IP
       --p2p.baddr $BUNDLER2_IP
     volumes:
       - ./keys:/root
+      - ./p2p-peer:/data/silius/p2p
     networks:
       default:
       p2p:
         ipv4_address: $BUNDLER2_IP
-

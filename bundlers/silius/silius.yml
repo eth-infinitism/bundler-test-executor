@@ -2,7 +2,7 @@ services:
   bundler:
     image: ghcr.io/silius-rs/silius:latest
     command: 
-      - bundler
+      - node
       - --eth-client-address
       - $ETH_RPC_URL
       - --datadir
@@ -23,4 +23,3 @@ services:
     ports: [ '3000:3000' ]
     volumes:
       - ./keys:/root
-
