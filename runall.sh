@@ -48,7 +48,7 @@ function getEnv {
   name=$2
   def=$3
   
-  val=`sh -c "source $envFile; echo \\\$$name"`
+  val=`bash -c "source $envFile; echo \\\$$name"`
   echo ${val:-$def}
 }
 
