@@ -1,0 +1,35 @@
+# start a standlone bundler for testing.
+# bring up a the bundler with its own geth instance
+
+#TODO: we assume that the boot bundler exposes BOOT_ENR 
+# need to EITHER receive ENR as parameter, or validate we generate exactly the same one.
+services:
+
+  bundler:
+    ports: [ '3000:3000' ]
+    image: sherifahmed990/voltaire-bundler-p2p:a01
+    command: --entrypoints ${ENTRYPOINT}
+        --bundler_secret 0xc6cbc5ffad570fdad0544d1b5358a36edeb98d163b6567912ac4754e144d4edb
+        --chain_id 1337
+        --rpc_url 0.0.0.0
+        --verbose 
+        --debug
+        --bundle_interval 0 
+        --ethereum_node_url $ETH_RPC_URL
+        --p2p_enr_address $BUNDLER_IP
+        --p2p_enr_tcp_port 9000
+        --p2p_enr_udp_port 9000
+    networks:
+      default:
+      p2p:
+        ipv4_address: $BUNDLER_IP
+    volumes:
+      - ./cache/enr.dat:/app/cache/enr.dat
+      - ./cache/key:/app/cache/key
+
+  bundler-verify:
+    image: docker
+    depends_on:
+      bundler:
+        condition: service_started
+    command: echo docker exec runbundler-bundler-1 cat /app/cache/enr.dat
