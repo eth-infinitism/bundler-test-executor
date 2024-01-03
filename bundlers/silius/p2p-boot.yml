@@ -5,8 +5,8 @@ services:
     command: node
       --eth-client-address $ETH_RPC_URL
       --datadir data/silius
-      --mnemonic-file /root/${BUNDLER_ACCOUNT}
-      --beneficiary ${BUNDLER_ACCOUNT}
+      --mnemonic-file /root/0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+      --beneficiary 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
       --entry-points $ENTRYPOINT
       --http --http.addr 0.0.0.0
       --http.port 3000
