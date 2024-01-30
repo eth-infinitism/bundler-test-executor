@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 test -n "$VERBOSE" && set -x
 
@@ -17,7 +17,7 @@ BUNDLERS=`realpath $1`
 shift
 fi
 
-cd bundler-spec-tests 
+cd bundler-spec-tests
 
 #first time must runall.
 test -d .venv || runall=1
@@ -30,7 +30,7 @@ fi
 rm -rf $OUT
 mkdir -p $OUT
 
-for bundler in $BUNDLERS; do 
+for bundler in $BUNDLERS; do
 
 bundlerTitle=`echo $bundler|perl -pe "s@$root/?@@"`
 echo ====================================================================
@@ -47,7 +47,7 @@ function getEnv {
   envFile=$1
   name=$2
   def=$3
-  
+
   val=`sh -c "source $envFile; echo \\\$$name"`
   echo ${val:-$def}
 }
@@ -63,7 +63,7 @@ if $root/runbundler/runbundler.sh $bundler pull-start; then
 
   echo "`date`: started bundler $bundler, name=$name" | tee -a $outraw
 
-  case "$bunder" in
+  case "$bundler" in
     *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/single` ;;
     *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ;;
   esac
