@@ -69,7 +69,7 @@ jobs:
       - run: test -d bundler-spec-tests || git clone --recurse-submodules --depth 1 https://github.com/eth-infinitism/bundler-spec-tests
         name: clone bundler-spec-tests
 
-      - run: git checkout releases/v0.6
+      - run: git fetch && git checkout releases/v0.6
         working-directory: bundler-spec-tests/@account-abstraction
         name: checkout bundler-spec-tests
 
