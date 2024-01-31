@@ -2,6 +2,7 @@ services:
 
   bundler:
     ports: [ '3000:3000' ]
+    platform: linux/x86_64
     image: ghcr.io/pimlicolabs/alto:latest
     command:
       - --network-name=local
