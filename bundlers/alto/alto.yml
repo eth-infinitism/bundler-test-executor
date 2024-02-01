@@ -15,3 +15,4 @@ services:
       - ALTO_MIN_BALANCE=0
       - ALTO_BUNDLE_MODE=manual
       - ALTO_SAFE_MODE=true
+      - ALTO_ENVIRONMENT=development
