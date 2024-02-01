@@ -69,9 +69,9 @@ jobs:
       - run: test -d bundler-spec-tests || git clone --recurse-submodules https://github.com/eth-infinitism/bundler-spec-tests
         name: clone bundler-spec-tests
 
-      - run: git checkout releases/v0.6
-        working-directory: bundler-spec-tests/@account-abstraction
-        name: checkout bundler-spec-tests
+    #   - run: git checkout releases/v0.6
+    #     working-directory: bundler-spec-tests/@account-abstraction
+    #     name: checkout bundler-spec-tests
 
       - run: cd bundler-spec-tests && (git describe --tags; git submodule ) | tee .git.status
         name: check bundler-spec-tests and submodules status
@@ -89,8 +89,12 @@ jobs:
         #for faster "update-deps" for spec
       - run: yarn --cwd bundler-spec-tests/spec remove gatsby || echo "already removed"
 
-      - run: "cd bundler-spec-tests && pdm install && pdm update-deps"
+      - run: "cd bundler-spec-tests && pdm install"
         name: update submodules of bundler-spec-tests
+
+      - run: "git submodule update --remote --init --recursive && cd @account-abstraction && git checkout releases/v0.6 && yarn && yarn compile &&  cd ../spec && yarn && yarn build"
+        name: update submodules of bundler-spec-tests
+        working-directory: bundler-spec-tests
 
       - run: VERBOSE=${{ inputs.verbose }} ./runall.sh ${{ inputs.runall_params }}
         if: ${{ ! inputs.skip_test }}
