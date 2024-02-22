@@ -6,7 +6,7 @@ root=`realpath \`dirname $0\``
 
 BUILD=$root/build
 OUT=$BUILD/out
-test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git
+#test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git -b v07
 
 #by default, run all single-bundler configs
 BUNDLERS=`ls $root/bundlers/*/*yml|grep -v p2p`

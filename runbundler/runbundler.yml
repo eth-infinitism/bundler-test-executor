@@ -16,8 +16,8 @@ services:
         condition: service_started
 
   deployer:
-    image: accountabstraction/deployer:0.6
-    # build: ./deployer
+    image: accountabstraction/deployer:0.7
+    # build: ./runbundler/deployer
     environment:
       - ETH_RPC_URL=$ETH_RPC_URL
       - ENTRYPOINT=$ENTRYPOINT

@@ -20,7 +20,8 @@ if [ -n "$ENTRYPOINT" ]; then
 fi
 
 echo Deploying entrypoint at $ENTRYPOINT
-$dir/create2deployer.sh $ep
+salt=0x90d8084deab30c2a37c45e8d47f49f2f7965183cb6990a98943ef94940681de3
+$dir/create2deployer.sh $ep $salt
 
 if [ -n "$ENTRYPOINT" ]; then
   if [ `cast cs $ENTRYPOINT` == 0 ] ; then

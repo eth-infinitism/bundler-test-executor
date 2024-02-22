@@ -1,0 +1,4 @@
+[submodule "bundler-spec-tests"]
+	path = bundler-spec-tests
+	url = https://github.com/eth-infinitism/bundler-spec-tests.git
+	branch = v07
