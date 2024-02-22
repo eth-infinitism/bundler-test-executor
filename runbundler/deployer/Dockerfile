@@ -1,4 +1,4 @@
-FROM node:18 as aa06
+FROM node:18 as aa07
 RUN git clone http://github.com/eth-infinitism/account-abstraction.git -b v0.7.0
 WORKDIR account-abstraction
 ENV TS_NODE_TRANSPILE_ONLY=1
@@ -20,7 +20,7 @@ RUN apk add jq
 WORKDIR account-abstraction
 ENTRYPOINT  [ "/bin/sh", "-c" ]
 ADD . .
-COPY --from=aa06 /account-abstraction/artifacts artifacts
+COPY --from=aa07 /account-abstraction/artifacts artifacts
 CMD [ "./deploy-entrypoint.sh" ]
 
 #alternate deployment, using hardhat deploy (external-conf.ts uses ETH_RPC_URL env. var to connect)
