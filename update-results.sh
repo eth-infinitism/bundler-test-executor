@@ -44,4 +44,4 @@ $root/create-history.sh $RUNS > $HIST/history.json
 (echo -n 'testHistory=' ; cat $HIST/history.json) > $HIST/script-history.js
 
 echo == summary of last run:
-jq '.[keys|last] | values[] | {name,tests,errors,failures,time, timestamp}' $HIST/history.json
+jq '.[keys|last] | values[] | {name,tests,errors,failures,time, timestamp}' $HIST/history.json || find $base
