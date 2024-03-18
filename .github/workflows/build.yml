@@ -66,7 +66,7 @@ jobs:
       #     path: bundler-spec-tests
       #     submodules: true
 
-      - run: test -d bundler-spec-tests || git clone --recurse-submodules --depth 1 https://github.com/eth-infinitism/bundler-spec-tests 
+      - run: test -d bundler-spec-tests || git clone -b releases/v0.6 --recurse-submodules https://github.com/eth-infinitism/bundler-spec-tests
         name: clone bundler-spec-tests
 
       - run: cd bundler-spec-tests && (git describe --tags; git submodule ) | tee .git.status
@@ -95,6 +95,16 @@ jobs:
       - name: "Test summary"
         run: "grep -r '===.* in ' `find . -path '*build/out*txt'`| sed -e 's/===*//g' "
 
+      - name: Zip build output
+        run: zip -r ./build.zip ./build
+
+      - name: Push build output to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: ./build.zip
+          retention-days: 2
+
       - name: dump logs
         if: ${{ inputs.dump_logs }}
         run: for d in build/*/*.log; do echo === $d:; cat $d | perl -pe 's/(?:runbundler-)?(\S+?)(?:-1)?[\s|]+(\S+)/$2 $1 /' | sort ; done
@@ -117,4 +127,3 @@ jobs:
 concurrency:
   group: "deploy"
   cancel-in-progress: true
-
