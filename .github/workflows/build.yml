@@ -26,6 +26,11 @@ on:
         required: false
         type: boolean
 
+      skip_push_updates:
+        description: 'skip push updates'
+        required: false
+        type: boolean
+
       ignore_cache:
         description: 'ignore cache'
         required: false
@@ -113,6 +118,7 @@ jobs:
         run: ./update-results.sh out-results
 
       - name: Push update to results repo
+        if: ${{ ! inputs.skip_push_updates }}
         uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
