@@ -17,10 +17,10 @@ RUNS=$base/runs
 HIST=$base/history
 
 #for local testing. it is set by github action
-#GITHUB_REF=${GITHUB_REF:=`git symbolic-ref  HEAD`}
+GITHUB_REF=${GITHUB_REF:=`git symbolic-ref  HEAD`}
 
 #starts with "refs/heads/{branchname}"
-branch=${2:-`echo $GITHUB_REF | perl -pe 's@.*/@@'`}
+branch=${2:-`echo $GITHUB_REF | perl -pe 's@.*heads/@@'`}
 
 rm -rf $base
 mkdir -p $base
