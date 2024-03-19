@@ -1,0 +1,13 @@
+#!/bin/sh
+
+bundlerUrl=$1
+
+c=0
+while [ $((c)) != 10 ]; do
+  c=$((c+1))
+  sleep 1
+  echo wait for bundler $bundlerUrl
+  cast ci -r $bundlerUrl 2>/dev/null && exit 0
+done
+exit 1
+
