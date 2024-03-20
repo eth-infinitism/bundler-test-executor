@@ -1,13 +1,13 @@
 #!/bin/sh
 
-bundlerUrl=$1
+url=$1
 
 c=0
 while [ $((c)) != 10 ]; do
   c=$((c+1))
   sleep 1
-  echo wait for bundler $bundlerUrl
-  cast ci -r $bundlerUrl 2>/dev/null && exit 0
+  echo wait for: $url
+  curl -m 1 -s -d '{"method":"eth_chainId","params":[],"id":1,"jsonrpc":"2.0"}' -H content-type:application/json $url | grep -q jsonrpc.*: && exit 0
 done
 exit 1
 
