@@ -79,7 +79,7 @@ jobs:
         name: check bundler-spec-tests and submodules status
 
       # restore cache of bundler-spec-tests, and its submodules
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         if: ${{ ! inputs.ignore_cache }}
         with:
           path: bundler-spec-tests
@@ -101,15 +101,12 @@ jobs:
       - name: "Test summary"
         run: "grep -r '===.* in ' `find build -path '*build/out*txt'`| sed -e 's/===*//g' "
 
-      - name: Zip build output
-        run: zip -r ./build.zip ./build
-
       - name: Push build output to artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
-          path: ./build.zip
-          retention-days: 2
+          path: ./build
+          retention-days: 30
 
       - name: dump logs
         if: ${{ inputs.dump_logs }}
