@@ -1,5 +1,6 @@
 #!/bin/sh -e
 
+sleep 1
 test -n "$VERBOSE" && set -x
 
 #fund all addresses in the FUND array
@@ -35,7 +36,7 @@ for addr in $FUND; do
 	   *) fatal "not an address and not privatekey: $addr" ;;
   esac
 
-  cast send $SENDER $addr --value `cast to-wei 10 eth` > /dev/null
+  cast send $SENDER $addr --async --value `cast to-wei 10 eth` > /dev/null
   echo funded: $addr
 
 done

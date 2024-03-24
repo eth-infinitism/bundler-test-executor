@@ -41,14 +41,14 @@ services:
         condition: service_completed_successfully
 
   bundler-waiter:
-    image: ghcr.io/foundry-rs/foundry:latest
-    command: 
-      - "sleep 2; cast rpc eth_chainId -r $BUNDLER_URL"
+    image: curlimages/curl
+    command: "/waitForBundler $BUNDLER_URL"
+    volumes:
+      - ./runbundler/waiter/waitForBundler:/waitForBundler
     depends_on:
-      #not depending on bundler: if bundler process aborts, this "waiter" would hang forever..
+      #not depending on bundler: should also handle (timeout) failed bundler.
       deployer:
         condition: service_completed_successfully
-    restart: on-failure:10
 
   wait-all:
     image: ghcr.io/foundry-rs/foundry:latest

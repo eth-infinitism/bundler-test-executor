@@ -6,7 +6,7 @@ root=`realpath \`dirname $0\``
 
 BUILD=$root/build
 OUT=$BUILD/out
-test -d bundler-spec-tests || git clone https://github.com/eth-infinitism/bundler-spec-tests.git
+test -d bundler-spec-tests || git clone -b releases/v0.6 --recurse-submodules https://github.com/eth-infinitism/bundler-spec-tests.git
 
 #by default, run all single-bundler configs
 BUNDLERS=`ls $root/bundlers/*/*yml|grep -v p2p`
@@ -48,7 +48,7 @@ function getEnv {
   name=$2
   def=$3
   
-  val=`sh -c "source $envFile; echo \\\$$name"`
+  val=`bash -c "source $envFile; echo \\\$$name"`
   echo ${val:-$def}
 }
 
@@ -63,7 +63,7 @@ if $root/runbundler/runbundler.sh $bundler pull-start; then
 
   echo "`date`: started bundler $bundler, name=$name" | tee -a $outraw
 
-  case "$bunder" in
+  case "$bundler" in
     *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/single` ;;
     *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ;;
   esac
