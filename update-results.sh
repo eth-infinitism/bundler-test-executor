@@ -13,8 +13,8 @@ fi
 base=$root/$1
 branch=$2
 
-RUNS=$base/runs
-HIST=$base/history
+RUNS=$base/v06/runs
+HIST=$base/v06/history
 
 #for local testing. it is set by github action
 GITHUB_REF=${GITHUB_REF:=`git symbolic-ref  HEAD`}
