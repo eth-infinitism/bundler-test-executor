@@ -19,7 +19,7 @@ Each bundler to run has a folder and yml file [./bundlers](./bundlers) folder
 - see the `runbundler/.env` for global settings, like `FUND` for funded addresses.
 - The bundler-specific RPC calls (eth_ and debug_) should be exposed on `BUNDLER_URL`
 - To test bundler startup script:
-  * `./runbundler/runbundler.sh {./runblers/aabundler/aabundler.yml} start` - start the bundler (along with node, and deployed contract)
+  * `./runbundler/runbundler.sh {./bundlers/aabundler/aabundler.yml} start` - start the bundler (along with node, and deployed contract)
   * `down` - stop all docker images.
   * (or any other docker-compose command, such as `logs`)
 
