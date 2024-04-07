@@ -31,7 +31,7 @@ fi
 
 if [ `cast cs $deployerAddress` == 0 ]; then
 
-  cast send $CAST_FROM $factoryDeployer --value $deploymentPrice > /dev/null
+  cast send --async $CAST_FROM $factoryDeployer --value $deploymentPrice > /dev/null
   cast publish --async $deployerDeploymentTransaction > /dev/null
 fi
 
@@ -40,5 +40,5 @@ saltBytes=`cast to-uint256 $salt`
 ctr=`cast concat-hex $saltBytes $1`
 echo deploying:
 #cast call $deployerAddress $ctr
-cast send $CAST_FROM $deployerAddress $ctr > /dev/null
+cast send --async $CAST_FROM $deployerAddress $ctr > /dev/null
 

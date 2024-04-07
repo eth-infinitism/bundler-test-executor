@@ -13,14 +13,14 @@ fi
 base=$root/$1
 branch=$2
 
-RUNS=$base/$branch/runs
-HIST=$base/$branch/history
+RUNS=$base/v07/runs
+HIST=$base/v07/history
 
 #for local testing. it is set by github action
-#GITHUB_REF=${GITHUB_REF:=`git symbolic-ref  HEAD`}
+GITHUB_REF=${GITHUB_REF:=`git symbolic-ref  HEAD`}
 
 #starts with "refs/heads/{branchname}"
-branch=${2:-`echo $GITHUB_REF | perl -pe 's@.*/@@'`}
+branch=${2:-`echo $GITHUB_REF | perl -pe 's@.*heads/@@'`}
 
 rm -rf $base
 mkdir -p $base

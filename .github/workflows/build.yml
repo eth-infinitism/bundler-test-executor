@@ -30,6 +30,12 @@ on:
         description: 'ignore cache'
         required: false
         type: boolean
+
+      skip_push_results:
+        description: 'skip push results'
+        required: false
+        type: boolean
+
 #  push: 
 #    branches:
 #      - '*'
@@ -74,7 +80,7 @@ jobs:
         name: check bundler-spec-tests and submodules status
 
       # restore cache of bundler-spec-tests, and its submodules
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         if: ${{ ! inputs.ignore_cache }}
         with:
           path: bundler-spec-tests
@@ -94,16 +100,25 @@ jobs:
         name: Run all tests ${{ inputs.runall_params }}
 
       - name: "Test summary"
-        run: "grep -r '===.* in ' `find . -path '*build/out*txt'`| sed -e 's/===*//g' "
+        run: "grep -r '===.* in ' `find build -path '*build/out*txt'`| sed -e 's/===*//g' "
+
+      - name: Push build output to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: ./build
+          retention-days: 30
 
       - name: dump logs
         if: ${{ inputs.dump_logs }}
         run: for d in build/*/*.log; do echo === $d:; cat $d | perl -pe 's/(?:runbundler-)?(\S+?)(?:-1)?[\s|]+(\S+)/$2 $1 /' | sort ; done
 
       - name: Clone and update results repo
-        run: ./update-results.sh out-results ${{ github.ref_name }}
+        if: ${{ ! inputs.skip_push_results }}
+        run: ./update-results.sh out-results
 
       - name: Push update to results repo
+        if: ${{ ! inputs.skip_push_results }}
         uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
@@ -118,4 +133,3 @@ jobs:
 concurrency:
   group: "deploy"
   cancel-in-progress: true
-
