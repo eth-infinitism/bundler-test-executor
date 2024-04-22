@@ -1,6 +1,6 @@
 services:
   bundler:
-    image: txgyy/ok_bund:v0.6.0
+    image: txgyy/ok_bund:v0.7.0
     environment:
       - ETH_RPC_URL=$ETH_RPC_URL
       - ENTRYPOINT=$ENTRYPOINT
