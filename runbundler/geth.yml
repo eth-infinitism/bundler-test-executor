@@ -1,13 +1,13 @@
 services:
 
   eth-node:
-    container_name: geth-1.10
+    container_name: geth-1.13
     ports: [ '8545:8545' ]
-    image: ethereum/client-go:release-1.10
+    image: ethereum/client-go:release-1.13
     command: --verbosity 1
       --http.vhosts '*,localhost,host.docker.internal'
       --http
-      --http.api personal,eth,net,web3,debug
+      --http.api eth,net,web3,debug
       --http.corsdomain '*'
       --http.addr "0.0.0.0"
       --networkid 1337
