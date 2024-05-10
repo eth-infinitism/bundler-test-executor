@@ -50,33 +50,35 @@ services:
       file: $BUNDLER2_YML
       service: bundler
     depends_on:
-      bundler-waiter:
+      deployer:
         condition: service_completed_successfully
 
   bundler-waiter:
-    image: ghcr.io/foundry-rs/foundry:latest
-    command: 
-      - "./waitForBundler $BUNDLER_URL"
+    image: curlimages/curl
+    command: "/waitForBundler $BUNDLER_URL"
     volumes:
       - ./runbundler/waiter/waitForBundler:/waitForBundler
     depends_on:
-      bundler:
-        condition: service_started
+      deployer:
+        condition: service_completed_successfully
 
   bundler-waiter2:
-    image: ghcr.io/foundry-rs/foundry:latest
-    command: 
-      - "./waitForBundler $BUNDLER2_URL"
+    image: curlimages/curl
+    command: "/waitForBundler $BUNDLER2_URL"
     volumes:
       - ./runbundler/waiter/waitForBundler:/waitForBundler
     depends_on:
-      bundler2:
-        condition: service_started
+      deployer:
+        condition: service_completed_successfully
 
   wait-all:
     image: ghcr.io/foundry-rs/foundry:latest
     command: echo started
     depends_on:
+      bundler:
+        condition: service_started
+      bundler2:
+        condition: service_started
       bundler-waiter:
         condition: service_completed_successfully
       bundler-waiter2:

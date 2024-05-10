@@ -4,7 +4,7 @@ This repo runs the `bundler-spec-test` against a list of bundlers, and show the 
 
 The result page is in: https://www.erc4337.io/bundlers
 
-Or https://bundler-test-results.eip4337.com/
+Or https://bundler-test-results.erc4337.io/
 
 Each bundler to run has a folder and yml file [./bundlers](./bundlers) folder
 

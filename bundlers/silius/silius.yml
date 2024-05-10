@@ -8,7 +8,7 @@ services:
       - --datadir
       - data/silius
       - --mnemonic-file
-      - /root/${BUNDLER_ACCOUNT}
+      - /root/0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
       - --beneficiary
       - "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
       - --entry-points 
