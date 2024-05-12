@@ -20,6 +20,8 @@ services:
       - "3000"
       - --http.api
       - eth,debug,web3
+      - --poll-interval
+      - "5"
     ports: [ '3000:3000' ]
     volumes:
       - ./keys:/root
