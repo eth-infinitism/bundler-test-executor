@@ -1,0 +1,33 @@
+services:
+  bundler:
+    ports: [ "3000:3000" ]
+    image: ghcr.io/silius-rs/silius:latest
+    command: node
+      --eth-client-address $ETH_RPC_URL
+      --datadir data/silius
+      --mnemonic-file /root/0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+      --beneficiary 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+      --entry-points $ENTRYPOINT
+      --http --http.addr 0.0.0.0
+      --http.port 3000
+      --http.api eth,debug,web3
+      --poll-interval "5"
+      --enable-p2p
+      --p2p.addr $BUNDLER_IP
+      --p2p.baddr $BUNDLER_IP
+    volumes:
+      - ./keys:/root
+      - ./p2p-boot:/data/silius/p2p
+    networks:
+      default:
+      p2p:
+        ipv4_address: $BUNDLER_IP
+
+  bundler-verify:
+    image: docker
+    # volumes:
+    #   - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      bundler:
+        condition: service_started
+    command: echo docker exec runbundler-bundler-1 cat /data/silius/p2p/node-enr
