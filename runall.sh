@@ -64,8 +64,8 @@ if $root/runbundler/runbundler.sh $bundler pull-start; then
   echo "`date`: started bundler $bundler, name=$name" | tee -a $outraw
 
   case "$bundler" in
-    *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/single` ;;
-    *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ;;
+    *yml) PYTEST_FOLDER=`getEnv $root/runbundler/runbundler.env PYTEST_FOLDER tests/single` ; TEST_SUITE=test ;;
+    *env) PYTEST_FOLDER=`getEnv $bundler PYTEST_FOLDER tests/p2p` ; TEST_SUITE=p2ptest ;;
   esac
 
   OPTIONS="
@@ -74,7 +74,7 @@ if $root/runbundler/runbundler.sh $bundler pull-start; then
   $PYTEST_FOLDER
   "
   # --log-rpc
-  pdm run test -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
+  pdm run $TEST_SUITE -o junit_suite_name="$name" $OPTIONS "$@" | tee -a $outraw
   test -r $outxml && xq . $outxml > $outjson
 
 fi
