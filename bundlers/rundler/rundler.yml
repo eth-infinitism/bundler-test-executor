@@ -1,0 +1,17 @@
+services:
+  bundler:
+    image: alchemyplatform/rundler:latest
+    command: node
+    environment:
+      - BUILDER_PRIVATE_KEY=c6cbc5ffad570fdad0544d1b5358a36edeb98d163b6567912ac4754e144d4edb
+      - NODE_HTTP=$ETH_RPC_URL
+      - MIN_UNSTAKE_DELAY=2
+      - RPC_API=eth,debug
+      - RUST_LOG=info
+      - PRIORITY_FEE_MODE_KIND=base_fee_percent
+      - PRIORITY_FEE_MODE_VALUE=0
+      - POOL_THROTTLED_ENTITY_LIVE_BLOCKS=20
+      - NETWORK=dev
+      - ENTRY_POINT_V0_6_ENABLED=false
+    ports: 
+      - '3000:3000'
