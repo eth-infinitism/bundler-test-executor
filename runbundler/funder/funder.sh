@@ -35,7 +35,7 @@ for addr in $FUND; do
 	   *) fatal "not an address and not privatekey: $addr" ;;
   esac
 
-  cast send --async $SENDER $addr --value `cast to-wei 10 eth` > /dev/null
+  cast send --gas-price 1000000000 --priority-gas-price 1000000000 --async $SENDER $addr --value `cast to-wei 10 eth` > /dev/null
   echo funded: $addr
 
 done
