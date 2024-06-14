@@ -12,6 +12,6 @@ services:
       - PRIORITY_FEE_MODE_VALUE=0
       - POOL_THROTTLED_ENTITY_LIVE_BLOCKS=20
       - NETWORK=dev
-      - ENTRY_POINT_V0_6_ENABLED=false
+      - DISABLE_ENTRY_POINT_V0_6=true
     ports: 
       - '3000:3000'
