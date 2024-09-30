@@ -18,10 +18,10 @@ services:
     volumes:
       - ./bootDataDir/peer-id.json:/root/.skandha/db/peer-id.json
     environment:
-      - SKANDHA_DEV_RPC=$ETH_RPC_URL
-      - SKANDHA_DEV_ENTRYPOINTS=${ENTRYPOINT}
-      - SKANDHA_DEV_RELAYER=test test test test test test test test test test test junk
-      - SKANDHA_DEV_BENEFICIARY=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+      - SKANDHA_RPC=$ETH_RPC_URL
+      - SKANDHA_ENTRYPOINTS=${ENTRYPOINT}
+      - SKANDHA_RELAYER=test test test test test test test test test test test junk
+      - SKANDHA_BENEFICIARY=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
 
 
   bundler-verify:
