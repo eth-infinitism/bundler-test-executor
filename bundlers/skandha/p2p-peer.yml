@@ -5,7 +5,7 @@ services:
 
   bundler:
     ports: [ "3001:3000" ]
-    image: etherspot/skandha:v1-1.5.26
+    image: etherspot/skandha:v1-1.5.27
     command: node --testingMode --api.port 3000
       --redirectRpc --executor.bundlingMode manual 
       --p2p.enrHost $BUNDLER2_IP
