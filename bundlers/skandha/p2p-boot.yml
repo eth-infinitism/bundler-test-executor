@@ -7,7 +7,7 @@ services:
 
   bundler:
     ports: [ '3000:3000' ]
-    image: etherspot/skandha
+    image: etherspot/skandha:v1-1.5.27
     command: node --testingMode --api.port 3000
       --p2p.enrHost $BUNDLER_IP
       --redirectRpc --executor.bundlingMode manual 
@@ -22,6 +22,8 @@ services:
       - SKANDHA_ENTRYPOINTS=${ENTRYPOINT}
       - SKANDHA_RELAYERS=test test test test test test test test test test test junk
       - SKANDHA_BENEFICIARY=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+      - SKANDHA_CANONICAL_MEMPOOL=Qmf7P3CuhzSbpJa8LqXPwRzfPqsvoQ6RG7aXvthYTzGxb2
+      - SKANDHA_CANONICAL_ENTRY_POINT=${ENTRYPOINT}
 
 
   bundler-verify:
