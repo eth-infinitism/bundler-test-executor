@@ -44,20 +44,20 @@ services:
     extends:
       file: $BUNDLER_YML
       service: bundler-verify
-
-  bundler2: 
-    extends:
-      file: $BUNDLER2_YML
-      service: bundler
-    depends_on:
-      deployer:
-        condition: service_completed_successfully
-
+    
   bundler-waiter:
     image: curlimages/curl
     command: "/waitForBundler $BUNDLER_URL"
     volumes:
       - ./runbundler/waiter/waitForBundler:/waitForBundler
+    depends_on:
+      deployer:
+        condition: service_completed_successfully
+
+  bundler2: 
+    extends:
+      file: $BUNDLER2_YML
+      service: bundler
     depends_on:
       deployer:
         condition: service_completed_successfully
