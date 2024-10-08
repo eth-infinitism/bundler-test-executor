@@ -1,0 +1,19 @@
+services:
+  # geth node, compiled with bundlerCollectorTracer as native tracer
+  node-native-tracer:
+    container_name: geth-native-tracer
+    image: dtr22/geth4337
+    command: --verbosity 1
+      --http.vhosts '*,localhost,host.docker.internal'
+      --http
+      --http.port 8888
+      --http.api eth,net,web3,debug
+      --http.corsdomain '*'
+      --http.addr "0.0.0.0"
+      --networkid 1337
+      --dev
+      --dev.period 0
+      --allow-insecure-unlock
+      --rpc.allow-unprotected-txs
+      --dev.gaslimit 20000000
+

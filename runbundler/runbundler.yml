@@ -32,6 +32,11 @@ services:
       file: $ETH_NODE_YML
       service: eth-node 
 
+  node-native-tracer:
+    extends: 
+      file: $NODE_NATIVE_TRACER_YML
+      service: node-native-tracer
+
   bundler: 
     extends:
       file: $BUNDLER_YML
@@ -39,7 +44,9 @@ services:
     depends_on:
       deployer:
         condition: service_completed_successfully
-
+      node-native-tracer:
+          condition: service_started
+  
   bundler-waiter:
     image: ghcr.io/foundry-rs/foundry:latest
     command: 
