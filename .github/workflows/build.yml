@@ -89,6 +89,13 @@ jobs:
       - run: cd bundler-spec-tests; git checkout
         name: "re-checkout bundler-spec-tests (on top of cache)"
 
+      - name: checked-out source artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sourceTree
+          path: .
+          retention-days: 30
+
         #for faster "update-deps" for spec
       - run: yarn --cwd bundler-spec-tests/spec remove gatsby || echo "already removed"
 
