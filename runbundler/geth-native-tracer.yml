@@ -2,7 +2,7 @@ services:
   # geth node, compiled with bundlerCollectorTracer as native tracer
   node-native-tracer:
     container_name: geth-native-tracer
-    image: dtr22/geth4337
+    image: accountabstraction/geth-native-tracer
     command: --verbosity 1
       --http.vhosts '*,localhost,host.docker.internal'
       --http
