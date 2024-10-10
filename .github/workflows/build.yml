@@ -57,8 +57,10 @@ jobs:
 
     steps:
 
-      - run: ( curl -L https://foundry.paradigm.xyz | bash ; find ~ | grep foundr ; bash -c foundryup )
+      - run: curl -L https://foundry.paradigm.xyz | bash ; ~/.config/.foundry/bin/foundryup
         name: Install foundry (for rip7560 contracts)
+      - run: export PATH=$PATH:~/.config/.foundry/bin
+      - run: forge version || echo no forge found
 
       - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
 
