@@ -70,7 +70,7 @@ jobs:
       # - run: test -d bundler-spec-tests || git clone --recurse-submodules --depth 1 https://github.com/eth-infinitism/bundler-spec-tests -b v07
       #  name: clone bundler-spec-tests
 
-      - run: ( curl -L https://foundry.paradigm.xyz | bash ; source /home/runner/.bashrc; foundryup )
+      - run: ( curl -L https://foundry.paradigm.xyz | sh ; sh -c foundryup )
         name: Install foundry (for rip7560 contracts)
 
       - run: git submodule status --recursive
