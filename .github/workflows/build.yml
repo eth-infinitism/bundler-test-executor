@@ -57,6 +57,9 @@ jobs:
 
     steps:
 
+      - run: ( curl -L https://foundry.paradigm.xyz | bash ; find ~ | grep foundr ; bash -c foundryup )
+        name: Install foundry (for rip7560 contracts)
+
       - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
 
       - run: pip install jq yq
@@ -69,9 +72,6 @@ jobs:
 
       # - run: test -d bundler-spec-tests || git clone --recurse-submodules --depth 1 https://github.com/eth-infinitism/bundler-spec-tests -b v07
       #  name: clone bundler-spec-tests
-
-      - run: ( curl -L https://foundry.paradigm.xyz | sh ; sh -c foundryup )
-        name: Install foundry (for rip7560 contracts)
 
       - run: git submodule status --recursive
         name: check bundler-spec-tests and submodules status
