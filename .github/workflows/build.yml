@@ -57,15 +57,15 @@ jobs:
 
     steps:
 
+      - run: pip install jq yq
+      - run: which xq
+
       - run: curl -L https://foundry.paradigm.xyz | bash ; ~/.config/.foundry/bin/foundryup
         name: Install foundry (for rip7560 contracts)
-      - run: mv ~/.config/.foundry/bin/* ~/.local/bin
+      - run: mv ~/.config/.foundry/bin/* `dirname \`which xq\` `
       - run: forge version || echo no forge found
 
       - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
-
-      - run: pip install jq yq
-      - run: which xq
 
       - uses: actions/checkout@v4
         with:
