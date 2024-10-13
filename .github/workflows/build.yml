@@ -62,21 +62,22 @@ jobs:
       - run: pip install jq yq
       - run: which xq
 
+      - run: curl -L https://foundry.paradigm.xyz | bash ; ~/.config/.foundry/bin/foundryup
+        name: Install foundry (for rip7560 contracts)
+      - run: mv ~/.config/.foundry/bin/* `dirname \`which xq\` `
+      - run: forge -version || echo no forge found
+
+      - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
+
       - uses: actions/checkout@v4
         with:
           submodules: recursive
           show-progress: false
 
-      # - uses: actions/checkout@v3
-      #   with:
-      #     repository: eth-infinitism/bundler-spec-tests
-      #     path: bundler-spec-tests
-      #     submodules: true
-
       # - run: test -d bundler-spec-tests || git clone --recurse-submodules --depth 1 https://github.com/eth-infinitism/bundler-spec-tests -b v07
       #  name: clone bundler-spec-tests
 
-      - run: cd bundler-spec-tests && (git describe --tags; git submodule ) | tee .git.status
+      - run: git submodule status --recursive
         name: check bundler-spec-tests and submodules status
 
       # restore cache of bundler-spec-tests, and its submodules
