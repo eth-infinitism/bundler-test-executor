@@ -1,5 +1,4 @@
 # docker-compose to bring up a single bundler, with all needed services
-version: '3'
 
 services:
 
