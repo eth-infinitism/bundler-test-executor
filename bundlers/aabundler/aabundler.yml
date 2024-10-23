@@ -1,10 +1,11 @@
 
 services:
   bundler:
-    image: accountabstraction/bundler:0.7.0
+    image: accountabstraction/bundler:0.7.1
     environment:
-      NAME: aa-ref-bundler-0.7.0
-    command: --network $ETH_RPC_URL
+      NAME: aa-ref-bundler-0.7.1
+    command: --network $ETH_RPC_URL  --tracerRpcUrl $NODE_NATIVE_TRACER_URL
+
     ports: [ '3000:3000' ]
     volumes:
       - ./workdir:/app/workdir:ro

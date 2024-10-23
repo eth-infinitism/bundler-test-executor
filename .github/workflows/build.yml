@@ -57,8 +57,6 @@ jobs:
 
     steps:
 
-      - run: curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
-
       - run: pip install jq yq
       - run: which xq
 
@@ -72,7 +70,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-          show-progress: false
+#          show-progress: false
 
       # - run: test -d bundler-spec-tests || git clone --recurse-submodules --depth 1 https://github.com/eth-infinitism/bundler-spec-tests -b v07
       #  name: clone bundler-spec-tests
@@ -89,6 +87,13 @@ jobs:
 
       - run: cd bundler-spec-tests; git checkout
         name: "re-checkout bundler-spec-tests (on top of cache)"
+
+      - name: checked-out source artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sourceTree
+          path: .
+          retention-days: 30
 
         #for faster "update-deps" for spec
       - run: yarn --cwd bundler-spec-tests/spec remove gatsby || echo "already removed"
