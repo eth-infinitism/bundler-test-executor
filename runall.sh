@@ -59,7 +59,8 @@ name=`sed -ne 's/ *NAME=[ "]*\([^"]*\)"*/\1/p' $bundler`
 test -z $name && name=$basename
 
 echo "`date`: starting bundler $bundler, name=$name" | tee -a $outraw
-if $root/runbundler/runbundler.sh $bundler pull-start; then
+test -z "$CMD" && CMD=pull-start 
+if $root/runbundler/runbundler.sh $bundler $CMD ; then
 
   echo "`date`: started bundler $bundler, name=$name" | tee -a $outraw
 
