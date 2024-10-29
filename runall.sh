@@ -11,12 +11,28 @@ test -d bundler-spec-tests || git clone -b releases/v0.6 --recurse-submodules ht
 #by default, run all single-bundler configs
 BUNDLERS=`ls $root/bundlers/*/*yml|grep -v p2p`
 
-#if parameter is given, use it as single-bundler yml, or as testenv file
-if [ -n "$1" -a -r "$1" ]; then
-BUNDLERS=`realpath $1`
-shift
-fi
+#if parameter is given, use it as single-bundler yml, or as testenv file, or a folder of testenv files
+if [ -n "$1" ]; then
+  if [ -d "$1" ]; then
+    # a folder. collect all files in it
+    BUNDLERS=""
+    for t in $1/*; do 
+      case $t in
+        *.yml|*.env)
+          BUNDLERS="$BUNDLERS `realpath $t`"
+          ;;
+        *)
+          echo "FATAL: $t is not '.env' or '.yml' file"
+          exit 1
+      esac
+    done
 
+  elif [ -r "$1" ]; then
+    # a single-file test
+    BUNDLERS=`realpath $1`
+    shift
+  fi
+fi
 cd bundler-spec-tests 
 
 #first time must runall.
