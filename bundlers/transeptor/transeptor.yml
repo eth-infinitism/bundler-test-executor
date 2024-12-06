@@ -8,6 +8,7 @@ services:
       - TRANSEPTOR_BENEFICIARY=0xd21934eD8eAf27a67f0A70042Af50A1D6d195E81
     command: >
       --network $ETH_RPC_URL
+      --tracerRpcUrl $NODE_NATIVE_TRACER_URL
       --port 3000
       --txMode base
       --httpApi web3,eth,debug
