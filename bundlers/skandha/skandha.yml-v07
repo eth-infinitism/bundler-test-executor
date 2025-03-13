@@ -5,7 +5,7 @@ services:
 
   bundler:
     ports: [ '3000:3000' ]
-    image: etherspot/skandha:v3-3.0.0-alpha
+    image: etherspot/skandha:v2-2.1.0
     command: standalone --testingMode --api.port 3000
     environment:
       - SKANDHA_RPC=$ETH_RPC_URL
