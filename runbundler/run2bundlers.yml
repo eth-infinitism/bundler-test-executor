@@ -16,7 +16,7 @@ services:
         condition: service_started
 
   deployer:
-    image: accountabstraction/deployer:0.7
+    image: accountabstraction/deployer:0.8
     # build: ./runbundler/deployer
     environment:
       - ETH_RPC_URL=$ETH_RPC_URL
@@ -54,7 +54,7 @@ services:
         condition: service_completed_successfully
 
   bundler-waiter:
-    image: ghcr.io/foundry-rs/foundry:latest
+    image: ghcr.io/foundry-rs/foundry:v0.2.0
     command: 
       - "sleep 1; cast rpc eth_chainId -r $BUNDLER_URL"
     depends_on:
@@ -63,7 +63,7 @@ services:
     restart: on-failure:10
 
   bundler-waiter2:
-    image: ghcr.io/foundry-rs/foundry:latest
+    image: ghcr.io/foundry-rs/foundry:v0.2.0
     command: 
       - "sleep 1; cast rpc eth_chainId -r $BUNDLER2_URL"
     depends_on:
@@ -72,7 +72,7 @@ services:
     restart: on-failure:10
 
   wait-all:
-    image: ghcr.io/foundry-rs/foundry:latest
+    image: ghcr.io/foundry-rs/foundry:v0.20
     command: echo started
     depends_on:
       bundler-waiter:

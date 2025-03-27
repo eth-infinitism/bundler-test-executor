@@ -1,9 +1,10 @@
 services:
 
   eth-node:
-    container_name: geth-1.14
+    container_name: geth-1.15
     ports: [ '8545:8545' ]
-    image: ethereum/client-go:release-1.14
+    #image: ethereum/client-go:release-1.14
+    image: accountabstraction/geth-with-erc7562-tracer
     command: --verbosity 1
       --http.vhosts '*,localhost,host.docker.internal'
       --http
