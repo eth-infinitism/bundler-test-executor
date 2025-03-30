@@ -1,6 +1,6 @@
 services:
   bundler:
-    image: ghcr.io/pimlicolabs/alto:v1.2.0
+    image: ghcr.io/pimlicolabs/alto:v1.2.4
     ports: [ "3000:3000" ]
     environment:
       - ALTO_ENTRYPOINTS=$ENTRYPOINT

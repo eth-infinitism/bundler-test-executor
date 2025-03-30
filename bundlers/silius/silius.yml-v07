@@ -1,6 +1,6 @@
 services:
   bundler:
-    image: ghcr.io/silius-rs/silius:v08-latest
+    image: ghcr.io/silius-rs/silius:v07-latest
     command: 
       - node
       - --eth-client-address

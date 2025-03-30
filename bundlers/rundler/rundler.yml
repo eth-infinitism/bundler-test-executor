@@ -13,5 +13,7 @@ services:
       - POOL_THROTTLED_ENTITY_LIVE_BLOCKS=20
       - NETWORK=dev
       - DISABLE_ENTRY_POINT_V0_6=true
+      #TEMP - use v0.8 entry point
+      - CHAIN_ENTRY_POINT_ADDRESS_V0_7=$ENTRYPOINT
     ports: 
       - '3000:3000'
