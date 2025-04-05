@@ -11,3 +11,4 @@ services:
       --debug
       --disable_p2p
       --disable_v6
+      --eip7702
