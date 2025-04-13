@@ -12,3 +12,4 @@ services:
       --disable_p2p
       --disable_v6
       --eip7702
+      --disable_entrypoints_code_check
