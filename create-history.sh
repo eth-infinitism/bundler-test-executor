@@ -18,7 +18,7 @@ const path = require('path')
 
 dir=process.argv[2]
 
-allFiles = fs.readFileSync(path.join(dir,'all.txt'), 'ascii').split('\n')
+allFiles = fs.readFileSync(path.join(dir,'all.txt'), 'utf8').split('\n')
 
 
 allFiles.sort()
@@ -27,7 +27,7 @@ allFiles.reverse()
 allResults={}
 allFiles.filter(f=>f.endsWith('.json')).forEach(f=>{
     const [_, filepath, name] = f.match(/^(?:\W*)(.*)\/(.*?).json/)
-    json = JSON.parse(fs.readFileSync(path.join(dir,f), 'ascii'))
+    json = JSON.parse(fs.readFileSync(path.join(dir,f), 'utf8'))
     res = removePrefix(json.testsuites.testsuite)
 //    delete res.testcase
     d = allResults[filepath]
