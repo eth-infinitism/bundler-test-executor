@@ -6,7 +6,7 @@ test -n "$VERBOSE" && set -x
 #each entry is either an address (42-char hex) or privatekey (66-char hex)
 #use ether "FUND_PRIVATEKEY" or accounts[0]
 
-function fatal {
+fatal() {
   echo "FATAL: $@"
   exit 1
 }

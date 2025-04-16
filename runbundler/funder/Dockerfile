@@ -1,6 +1,7 @@
-FROM ghcr.io/foundry-rs/foundry:v0.2.0
+FROM accountabstraction/foundry-legacy-0.2
+#latest foundry image doesn't support "apk" 
+RUN apk add --no-cache jq
 
-RUN apk add jq
 ADD funder.sh /
 #RUN chmod a+rx /funder.sh
 ENTRYPOINT  [ "/funder.sh"  ]

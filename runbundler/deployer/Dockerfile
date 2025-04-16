@@ -6,9 +6,11 @@ ENV PATH=$PATH:./node_modules/.bin
 RUN yarn global add node-gyp
 RUN yarn && hardhat compile
 
-FROM ghcr.io/foundry-rs/foundry:v0.2.0
+#latest foundry image doesn't support "apk"
+FROM accountabstraction/foundry-legacy-0.2
 
-RUN apk add jq
+RUN apk add --no-cache jq
+
 WORKDIR account-abstraction
 ENTRYPOINT  [ "/bin/sh", "-c" ]
 ADD . .
