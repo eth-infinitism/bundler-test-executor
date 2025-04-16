@@ -47,7 +47,7 @@ services:
       #     condition: service_started
   
   bundler-waiter:
-    image: ghcr.io/foundry-rs/foundry:v0.2.0
+    image: ghcr.io/foundry-rs/foundry:v1.0.0
     command: 
       - "sleep 2; cast rpc eth_chainId -r $BUNDLER_URL"
     depends_on:
@@ -57,7 +57,7 @@ services:
     restart: on-failure:10
 
   wait-all:
-    image: ghcr.io/foundry-rs/foundry:v0.2.0
+    image: ghcr.io/foundry-rs/foundry:v1.0.0
     command: echo started
     depends_on:
       bundler:

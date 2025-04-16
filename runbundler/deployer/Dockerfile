@@ -6,9 +6,13 @@ ENV PATH=$PATH:./node_modules/.bin
 RUN yarn global add node-gyp
 RUN yarn && hardhat compile
 
-FROM ghcr.io/foundry-rs/foundry:v0.2.0
+FROM alpine AS tools
+RUN apk add --no-cache jq
 
-RUN apk add jq
+FROM ghcr.io/foundry-rs/foundry:v1.0.0
+
+COPY --from=tools /usr/bin/jq /usr/bin/jq
+
 WORKDIR account-abstraction
 ENTRYPOINT  [ "/bin/sh", "-c" ]
 ADD . .
