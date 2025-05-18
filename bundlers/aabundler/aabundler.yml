@@ -1,9 +1,9 @@
 
 services:
   bundler:
-    image: accountabstraction/bundler:0.8.0
+    image: accountabstraction/bundler:0.8.1
     environment:
-      NAME: aa-ref-bundler-0.8.0
+      NAME: aa-ref-bundler-0.8.1
       DEBUG: $DEBUG
     command: --network $ETH_RPC_URL  
     # --tracerRpcUrl $NODE_NATIVE_TRACER_URL
